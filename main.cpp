@@ -1,6 +1,7 @@
 #include <iostream>
+#include "TuringMachine.h"
 
 int main() {
-    std::cout << "Hello World!" << std::endl;
+    TuringMachine t("../exampleTM.json");
     return 0;
 }
