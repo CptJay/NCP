@@ -1,0 +1,14 @@
+{
+  "States": ["Q0","Q1","Q2","Q3"],
+  "Variables": ["A", "S","a", "b", "c"],
+  "Transitions": [
+    {"from": "Q0", "to": "Q1",
+      "symbol": "A", "direction": "R"},
+    {"from": "Q1", "to": "Q2",
+      "symbol": "A", "direction": "D"},
+    {"from": "Q2", "to": "Q3",
+      "symbol": "A", "direction": "U"}
+  ],
+  "Final": ["Q3"],
+  "Start": "Q0"
+}
