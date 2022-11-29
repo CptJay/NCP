@@ -3,11 +3,11 @@
   "Variables": ["A", "S","a", "b", "c"],
   "Transitions": [
     {"from": "Q0", "to": "Q1",
-      "symbol": "A", "direction": "R"},
+      "symbol": "A", "write": "A","direction": "R"},
     {"from": "Q1", "to": "Q2",
-      "symbol": "A", "direction": "D"},
+      "symbol": "A", "write": "a","direction": "D"},
     {"from": "Q2", "to": "Q3",
-      "symbol": "A", "direction": "U"}
+      "symbol": "#", "write": "#","direction": "U"}
   ],
   "Final": ["Q3"],
   "Start": "Q0"

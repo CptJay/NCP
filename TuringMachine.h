@@ -7,19 +7,24 @@
 
 #include "json.hpp"
 #include <vector>
+#include <memory>
 #include <string>
-class Transition;
+struct State;
+struct Transition;
 using namespace std;
+using Track = pair<vector<string>,vector<string>>;
 using json = nlohmann::json;
 
 class TuringMachine {
 private:
-    int head, track;
-    string Start;
-    vector<pair<vector<string>,vector<string>>> tracks;
+//    trackCorrection bestaat zodat de head value stijgt terwijl hij naar
+//    links gaat als hij op de -inf track staat
+    int head, track, trackCorrection;
+    string start;
+    vector<Track> tracks;
     vector<string>* currentTrack;
-    vector<string> states, finalStates, variables;
-    vector<Transition> transitions;
+    vector<string> finalStates, variables;
+    vector<shared_ptr<State>> states;
 
 public:
     TuringMachine(string);
