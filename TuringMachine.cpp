@@ -19,17 +19,16 @@ struct Transition {
     string symbol, write;
     shared_ptr<State> to;
     char direction;
-    Transition(shared_ptr<State> to, string symbol, string write,char direction) : to(to), symbol(std::move(symbol)),
-                                                                        write(write),direction(direction) {}
+    Transition(shared_ptr<State> to, string symbol, string write,char direction) : to(std::move(to)), symbol(std::move(symbol)),
+                                                                        write(std::move(write)),direction(direction) {}
 };
 
-TuringMachine::TuringMachine(string fileName) : head(0), track(0), trackCorrection(1),
+TuringMachine::TuringMachine(const string& fileName) : head(0), track(0), trackCorrection(1),
                                                     tracks({pair<vector<string>,vector<string>> ({},{})}),
                                                     currentTrack(&tracks[0].first)  {
     ifstream input(fileName);
     json j;
     input >> j;
-    vector<string> transitionsCopy{};
     for (const auto& state:j["States"]) {
         shared_ptr<State> s (new State);
         s->name = state;
@@ -63,7 +62,7 @@ TuringMachine::TuringMachine(string fileName) : head(0), track(0), trackCorrecti
 
 bool TuringMachine::accepts(vector<string> input) {
     shared_ptr<State> currentState {};
-    for (auto state:states) {
+    for (const auto& state:states) {
         if (state->name == start) {
             currentState = state;
             break;
@@ -76,7 +75,7 @@ bool TuringMachine::accepts(vector<string> input) {
         if ((*currentTrack).size() <= head) {
             (*currentTrack).emplace_back("#");
         }
-        for (auto transition:currentState->transitions) {
+        for (const auto& transition:currentState->transitions) {
             if (transition.symbol == (*currentTrack)[head]) {
                 (*currentTrack)[head] = transition.write;
                 currentState = transition.to;
@@ -127,14 +126,10 @@ bool TuringMachine::accepts(vector<string> input) {
             }
         }
     }
-    for (auto final:finalStates) {
+    for (const auto& final:finalStates) {
         if (currentState->name == final) {
             return true;
         }
     }
     return false;
-}
-
-TuringMachine::~TuringMachine() {
-
 }

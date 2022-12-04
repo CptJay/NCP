@@ -27,11 +27,11 @@ private:
     vector<shared_ptr<State>> states;
 
 public:
-    TuringMachine(string);
+    TuringMachine(const string&);
 
     bool accepts(vector<string>);
 
-    ~TuringMachine();
+    ~TuringMachine() = default;
 };
 
 
