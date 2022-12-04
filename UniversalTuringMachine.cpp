@@ -3,22 +3,17 @@
 //
 
 #include <fstream>
+#include <iostream>
 #include "UniversalTuringMachine.h"
 
 
-UniversalTuringMachine::UniversalTuringMachine(vector<string>& instructionsInput) : head(0), track(0), trackCorrection(1),
+UniversalTuringMachine::UniversalTuringMachine() : head(0), track(0), trackCorrection(1),
                                                    tracks({pair<vector<string>,vector<string>> ({},{})}),
                                                    currentTrack(&tracks[0].first), currentState({}),
-                                                   instructions(instructionsInput) {}
+                                                   instructions({}) {}
 
-UniversalTuringMachine::UniversalTuringMachine(const string& fileName) : head(0), track(0), trackCorrection(1),
-                                                   tracks({pair<vector<string>,vector<string>> ({},{})}),
-                                                   currentTrack(&tracks[0].first), currentState({}) {jsonToInstruction(fileName);}
-
-UniversalTuringMachine::~UniversalTuringMachine() = default;
-
-
-vector<string> UniversalTuringMachine::jsonToInstruction(const string& fileName) {
+void UniversalTuringMachine::jsonToInstruction(const string& fileName) {
+    instructions.clear();
     instructions.emplace_back("start");
     vector<tuple<string,string,bool>> states {};
     vector<string> finalStates {};
@@ -92,12 +87,10 @@ vector<string> UniversalTuringMachine::jsonToInstruction(const string& fileName)
         instructions.emplace_back(";");
     }
     instructions.emplace_back("end");
-    return instructions;
 }
 
-
-
-bool UniversalTuringMachine::start(vector<string> input) {
+bool UniversalTuringMachine::start(vector<string> input, const string& TM) {
+    jsonToInstruction(TM);
     *currentTrack = std::move(input);
     bool final = false;
     tuple<string, char, bool, bool> nextMove {};
@@ -135,6 +128,7 @@ bool UniversalTuringMachine::start(vector<string> input) {
 //                Gaat wel naar het begin van de nieuwe/bestaande track
         else if (direction == 'U') {
             if (track - 1 < 0) {
+                reset();
                 return false;
             }
             track--;
@@ -152,10 +146,89 @@ bool UniversalTuringMachine::start(vector<string> input) {
 
     }
     while (get<2>(nextMove));
+    reset();
     if (final) {
         return true;
     }
     return false;
+}
+
+vector<string> UniversalTuringMachine::calculate(vector<string> input, const string& TM) {
+    jsonToInstruction(TM);
+    *currentTrack = std::move(input);
+    bool final = false;
+    tuple<string, char, bool, bool> nextMove {};
+    do {
+        if ((*currentTrack).size() <= head) {
+            (*currentTrack).emplace_back("#");
+        }
+        nextMove = readInstruction((*currentTrack)[head]);
+        string write = get<0>(nextMove);
+        char direction = get<1>(nextMove);
+        if (!get<2>(nextMove)) {
+            break;
+        }
+        if (get<2>(nextMove)) {
+            final = get<3>(nextMove);
+        }
+        (*currentTrack)[head] = write;
+        if (direction == 'L') {
+            head -= trackCorrection;
+            if (head < 0) {
+                head = 0;
+                trackCorrection *= -1;
+                if (trackCorrection == 1)
+                    currentTrack = &tracks[track].first;
+                if (trackCorrection == -1)
+                    currentTrack = &tracks[track].second;
+            }
+        }
+        else if (direction == 'R') {
+            head += trackCorrection;
+            if (head < 0) {
+                head = 0;
+                trackCorrection *= -1;
+                if (trackCorrection == 1)
+                    currentTrack = &tracks[track].first;
+                if (trackCorrection == -1)
+                    currentTrack = &tracks[track].second;
+            }
+        }
+//                Gaat wel naar het begin van de nieuwe/bestaande track
+        else if (direction == 'U') {
+            if (track - 1 < 0) {
+                reset();
+                return {};
+            }
+            track--;
+            head = 0;
+            currentTrack = &tracks[track].first;
+        }
+        else if (direction == 'D') {
+            track++;
+            head = 0;
+            if (track == tracks.size()) {
+                tracks.push_back(Track ({},{}));
+            }
+            currentTrack = &tracks[track].first;
+        }
+    }
+    while (get<2>(nextMove));
+    vector<string> result {};
+    int instructionCounter {};
+    while (tracks[0].first[instructionCounter] != "#") {
+        instructionCounter++;
+    }
+    instructionCounter++;
+    while (tracks[0].first.size() > instructionCounter and tracks[0].first[instructionCounter] != "#") {
+        result.emplace_back("1");
+        instructionCounter++;
+    }
+    reset();
+    if (final) {
+        return result;
+    }
+    return {};
 }
 
 tuple<string, char, bool, bool> UniversalTuringMachine::readInstruction(const string& symbol) {
@@ -229,3 +302,14 @@ tuple<string, char, bool, bool> UniversalTuringMachine::readInstruction(const st
     }
     return {write, instructionDirection, true, toFinalState};
 }
+
+void UniversalTuringMachine::reset() {
+    currentState.clear();
+    head = track = 0;
+    trackCorrection = 1;
+    tracks = {Track ({},{})};
+    instructions.clear();
+    currentTrack = &tracks[0].first;
+}
+
+UniversalTuringMachine::~UniversalTuringMachine() = default;

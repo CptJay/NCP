@@ -25,15 +25,17 @@ private:
     vector<string>* currentTrack{};
 
 public:
-    UniversalTuringMachine(vector<string>&);
+    UniversalTuringMachine();
 
-    UniversalTuringMachine(const string&);
-
-    vector<string> jsonToInstruction(const string&);
+    void jsonToInstruction(const string&);
 
     tuple<string, char, bool, bool> readInstruction(const string&);
 
-    bool start(vector<string>);
+    bool start(vector<string>, const string&);
+
+    vector<string> calculate(vector<string> input, const string&);
+
+    void reset();
 
     ~UniversalTuringMachine();
 };
