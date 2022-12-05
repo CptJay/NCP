@@ -4,13 +4,15 @@
 
 #include <fstream>
 #include <iostream>
+#include "Track.h"
 #include "UniversalTuringMachine.h"
 
 
-UniversalTuringMachine::UniversalTuringMachine() : head(0), track(0), trackCorrection(1),
-                                                   tracks({pair<vector<string>,vector<string>> ({},{})}),
-                                                   currentTrack(&tracks[0].first), currentState({}),
-                                                   instructions({}) {}
+UniversalTuringMachine::UniversalTuringMachine() : currentState({}), instructions({}), track(0) {
+    Track t;
+    tracks = {t};
+    currentTrack = &tracks[0];
+}
 
 void UniversalTuringMachine::jsonToInstruction(const string& fileName) {
     instructions.clear();
@@ -69,8 +71,6 @@ void UniversalTuringMachine::jsonToInstruction(const string& fileName) {
         else {
             instructions.emplace_back(".");
         }
-
-
         instructions.emplace_back("read");
         vector<string> instructionPart {transition["symbol"],"write",transition["write"],"direction",transition["direction"],"to"};
         for (const auto& i:instructionPart) {
@@ -89,146 +89,72 @@ void UniversalTuringMachine::jsonToInstruction(const string& fileName) {
     instructions.emplace_back("end");
 }
 
-bool UniversalTuringMachine::start(vector<string> input, const string& TM) {
+pair<vector<string>, bool> UniversalTuringMachine::start(const vector<string>& input, const string& TM) {
     jsonToInstruction(TM);
-    *currentTrack = std::move(input);
+    int trackLocation {};
+    for (const auto& symbol:input) {
+        currentTrack->write(symbol);
+        currentTrack->moveRight();
+        trackLocation++;
+    }
+    for (int i = 0; i < trackLocation; ++i) {
+        currentTrack->moveLeft();
+    }
     bool final = false;
     tuple<string, char, bool, bool> nextMove {};
-    do {
-        if ((*currentTrack).size() <= head) {
-            (*currentTrack).emplace_back("#");
-        }
-        nextMove = readInstruction((*currentTrack)[head]);
-        string write = get<0>(nextMove);
-        char direction = get<1>(nextMove);
-        if (get<2>(nextMove)) {
-            final = get<3>(nextMove);
-        }
-        (*currentTrack)[head] = write;
-        if (direction == 'L') {
-            head -= trackCorrection;
-            if (head < 0) {
-                trackCorrection *= -1;
-                if (trackCorrection == 1)
-                    currentTrack = &tracks[track].first;
-                if (trackCorrection == -1)
-                    currentTrack = &tracks[track].second;
-            }
-        }
-        else if (direction == 'R') {
-            head += trackCorrection;
-            if (head < 0) {
-                trackCorrection *= -1;
-                if (trackCorrection == 1)
-                    currentTrack = &tracks[track].first;
-                if (trackCorrection == -1)
-                    currentTrack = &tracks[track].second;
-            }
-        }
-//                Gaat wel naar het begin van de nieuwe/bestaande track
-        else if (direction == 'U') {
-            if (track - 1 < 0) {
-                reset();
-                return false;
-            }
-            track--;
-            head = 0;
-            currentTrack = &tracks[track].first;
-        }
-        else if (direction == 'D') {
-            track++;
-            head = 0;
-            if (track == tracks.size()) {
-                tracks.push_back(Track ({},{}));
-            }
-            currentTrack = &tracks[track].first;
-        }
-
-    }
-    while (get<2>(nextMove));
-    reset();
-    if (final) {
-        return true;
-    }
-    return false;
-}
-
-vector<string> UniversalTuringMachine::calculate(vector<string> input, const string& TM) {
-    jsonToInstruction(TM);
-    *currentTrack = std::move(input);
-    bool final = false;
-    tuple<string, char, bool, bool> nextMove {};
-    do {
-        if ((*currentTrack).size() <= head) {
-            (*currentTrack).emplace_back("#");
-        }
-        nextMove = readInstruction((*currentTrack)[head]);
-        string write = get<0>(nextMove);
-        char direction = get<1>(nextMove);
+    while (true) {
+        nextMove = readInstruction(currentTrack->read());
         if (!get<2>(nextMove)) {
             break;
         }
-        if (get<2>(nextMove)) {
-            final = get<3>(nextMove);
-        }
-        (*currentTrack)[head] = write;
+        string write = get<0>(nextMove);
+        char direction = get<1>(nextMove);
+        final = get<3>(nextMove);
+        currentTrack->write(write);
         if (direction == 'L') {
-            head -= trackCorrection;
-            if (head < 0) {
-                head = 0;
-                trackCorrection *= -1;
-                if (trackCorrection == 1)
-                    currentTrack = &tracks[track].first;
-                if (trackCorrection == -1)
-                    currentTrack = &tracks[track].second;
-            }
+            currentTrack->moveLeft();
         }
         else if (direction == 'R') {
-            head += trackCorrection;
-            if (head < 0) {
-                head = 0;
-                trackCorrection *= -1;
-                if (trackCorrection == 1)
-                    currentTrack = &tracks[track].first;
-                if (trackCorrection == -1)
-                    currentTrack = &tracks[track].second;
-            }
+            currentTrack->moveRight();
         }
 //                Gaat wel naar het begin van de nieuwe/bestaande track
         else if (direction == 'U') {
             if (track - 1 < 0) {
                 reset();
-                return {};
+                return {{},false};
             }
             track--;
-            head = 0;
-            currentTrack = &tracks[track].first;
+            currentTrack = &tracks[track];
         }
         else if (direction == 'D') {
             track++;
-            head = 0;
             if (track == tracks.size()) {
-                tracks.push_back(Track ({},{}));
+//                tracks.emplace_back(Track ());
+                tracks.emplace_back();
             }
-            currentTrack = &tracks[track].first;
+            currentTrack = &tracks[track];
         }
     }
-    while (get<2>(nextMove));
     vector<string> result {};
-    int instructionCounter {};
-    while (tracks[0].first[instructionCounter] != "#") {
-        instructionCounter++;
-    }
-    instructionCounter++;
-    while (tracks[0].first.size() > instructionCounter and tracks[0].first[instructionCounter] != "#") {
-        result.emplace_back("1");
-        instructionCounter++;
+    currentTrack = &tracks[0];
+    while (currentTrack->read() != "#") {
+        result.emplace_back(currentTrack->read());
+        currentTrack->moveRight();
     }
     reset();
-    if (final) {
-        return result;
-    }
-    return {};
+    return {result, final};
+}
+
+vector<string> UniversalTuringMachine::calculate(const vector<string> &input, const string& TMfile) {
+    vector<string> result = start(input, TMfile).first;
+    reset();
+    return result;
+}
+
+bool UniversalTuringMachine::accepts(const vector<string> &input, const string& TMfile) {
+    bool final = start(input, TMfile).second;
+    reset();
+    return final;
 }
 
 tuple<string, char, bool, bool> UniversalTuringMachine::readInstruction(const string& symbol) {
@@ -305,11 +231,10 @@ tuple<string, char, bool, bool> UniversalTuringMachine::readInstruction(const st
 
 void UniversalTuringMachine::reset() {
     currentState.clear();
-    head = track = 0;
-    trackCorrection = 1;
-    tracks = {Track ({},{})};
+    track = 0;
+    tracks = {Track ()};
     instructions.clear();
-    currentTrack = &tracks[0].first;
+    currentTrack = &tracks[0];
 }
 
 UniversalTuringMachine::~UniversalTuringMachine() = default;

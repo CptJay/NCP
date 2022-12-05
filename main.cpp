@@ -1,5 +1,6 @@
 #include <iostream>
 #include "UniversalTuringMachine.h"
+#include "Track.h"
 using namespace std;
 
 vector<string> stringToVector(const string& input) {
@@ -26,6 +27,6 @@ int turingMachineProduct(UniversalTuringMachine& t, int x, int y) {
 int main() {
 //    accepteert 0^(2^n) met n >= 0
     UniversalTuringMachine t;
-    cout << turingMachineProduct(t,3,53);
+    cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "../TMtest1.json");
     return 0;
 }
