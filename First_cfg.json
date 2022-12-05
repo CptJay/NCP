@@ -1,5 +1,5 @@
 {
-  "Variable": ["Type", "Alphabet", "Nummer", "Getal", "Komma", "Word", "Var", "Function", "ASMD", "Openhaak", "Geslotenhaak", "Openbracket", "Geslotenbracket", "Equal", "Dotkomma"],
+  "Variable": ["Type", "Alphabet", "Nummer", "Getal", "Komma", "Word", "Var", "Function", "ASMD", "Openhaak", "Geslotenhaak", "Openbracket", "Geslotenbracket", "Equal", "Dotkomma","Streep"],
   "Production": [
     {"head":  "Type", "body":  ["double"]},
     {"head":  "Type", "body":  ["Vector"]},
@@ -10,13 +10,13 @@
     {"head":  "Getal", "body": ["Nummer", "Getal"]},
     {"head":  "Getal", "body": ["Nummer"]},
     {"head":  "Komma", "body": ["Getal", ".", "Getal"]},
-    {"head":  "Var", "body": ["Alphabet", "Var"]},
+    {"head":  "Var", "body": ["Alphabet", "Getal"]},
     {"head":  "Var", "body": ["Alphaber"]},
     {"head":  "Function", "body": ["len", "(","Var",")"]},
     {"head":  "Function", "body": ["Det", "(","Var",")"]},
     {"head":  "Function", "body": ["Inv", "(","Var",")"]},
     {"head":  "Function", "body": ["Der", "(","Var",")"]},
-    {"head":  "Function", "body": ["T", "(","Var",")"]},
+    {"head":  "Function", "body": ["Tra", "(","Var",")"]},
     {"head":  "ASMD", "body": ["-"]},
     {"head":  "ASMD", "body": ["+"]},
     {"head":  "ASMD", "body": ["*"]},
@@ -26,8 +26,10 @@
     {"head":  "Openbracket", "body": ["["]},
     {"head":  "Geslotenbracket", "body": ["]"]},
     {"head":  "Equal", "body": ["="]},
-    {"head":  "Dotkomma", "body": [";"]}
-  ]
+    {"head":  "Dotkomma", "body": [";"]},
+    {"head":  "Streep", "body": ["|"]}
+  ],
+  "Start": ["S"]
 }
 
 

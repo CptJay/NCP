@@ -1,4 +1,6 @@
+/*
 #include <iostream>
+#include
 #include "UniversalTuringMachine.h"
 using namespace std;
 
@@ -22,10 +24,16 @@ int turingMachineProduct(UniversalTuringMachine& t, int x, int y) {
     result = t.calculate(result, "../MultiplicationTM.json");
     return (int) result.size();
 }
+*/
+#include "EarleyParser.h"
 
 int main() {
+    /*
+    TuringMachine t("../exampleTM.json");
+    cout << boolalpha << t.accepts({"A","A"});
+     */
+    EarleyParser first("First_cfg.json");
+    EarleyParser second("Second_cfg.json");
+    first.accepting(second,"NCP_Input.txt");
 //    accepteert 0^(2^n) met n >= 0
-    UniversalTuringMachine t;
-    cout << turingMachineProduct(t,3,53);
-    return 0;
 }

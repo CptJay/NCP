@@ -1,14 +1,37 @@
 //
 // Created by nr1sl on 11/28/2022.
 //
-
 #ifndef NCP_EARLEYPARSER_H
 #define NCP_EARLEYPARSER_H
 
+#include <iostream>
+#include <vector>
+#include "json.hpp"
+#include <map>
+#include "Objects.h"
+#include <sstream>
+#include <string>
+
+using namespace::std;
+
+using json = nlohmann::json;
 
 class EarleyParser {
+private:
+    map<string,Objects*>V;
+    Objects* S;
 
-};
+public:
+    EarleyParser();
+    EarleyParser(string str);
+
+    void accepting(EarleyParser& second, string str);
+    void TabelVullenSecond(EarleyParser& second, Objects* ob,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,int& state, int& chart);
+    bool Search(string str,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,EarleyParser& second, int& state, int& chart, map<string,bool>& twotime);
+    void OneDotAhead(string str,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,EarleyParser& second, int& state, int& chart, map<string,bool>& twotime);
+    bool LastChart(map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel, int chart);
+
+    };
 
 
 #endif //NCP_EARLEYPARSER_H
