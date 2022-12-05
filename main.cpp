@@ -1,6 +1,7 @@
 #include <iostream>
 #include "UniversalTuringMachine.h"
 #include "Track.h"
+#include "EarleyParser.h"
 using namespace std;
 
 vector<string> stringToVector(const string& input) {
@@ -24,7 +25,7 @@ int turingMachineProduct(UniversalTuringMachine& t, int x, int y) {
     return (int) result.size();
 }
 
-#include "EarleyParser.h"
+
 
 int main() {
     /*

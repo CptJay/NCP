@@ -1,6 +1,6 @@
 
 #Inner product
-double d = v1 * v2 * v3; # kan ook: <v1, v2>
+double d = v1 * v2 * 2; # kan ook: <v1, v2>
 
 #Length
 double f = len(v1);
