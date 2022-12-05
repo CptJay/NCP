@@ -1,7 +1,6 @@
-/*
 #include <iostream>
-#include
 #include "UniversalTuringMachine.h"
+#include "Track.h"
 using namespace std;
 
 vector<string> stringToVector(const string& input) {
@@ -24,7 +23,7 @@ int turingMachineProduct(UniversalTuringMachine& t, int x, int y) {
     result = t.calculate(result, "../MultiplicationTM.json");
     return (int) result.size();
 }
-*/
+
 #include "EarleyParser.h"
 
 int main() {
@@ -36,4 +35,7 @@ int main() {
     EarleyParser second("Second_cfg.json");
     first.accepting(second,"NCP_Input.txt");
 //    accepteert 0^(2^n) met n >= 0
+    UniversalTuringMachine t;
+    cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "../TMtest1.json");
+    return 0;
 }

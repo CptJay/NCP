@@ -11,4 +11,6 @@ add_executable(untitled1 main.cpp
         UniversalTuringMachine.cpp
         UniversalTuringMachine.h
         Objects.h
-        Objects.cpp)
+        Objects.cpp
+        Track.cpp
+        Track.h)

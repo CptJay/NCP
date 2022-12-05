@@ -9,20 +9,20 @@
 #include <vector>
 #include <memory>
 #include <string>
+class Track;
 struct State;
 struct Transition;
 using namespace std;
-using Track = pair<vector<string>,vector<string>>;
 using json = nlohmann::json;
 
 class UniversalTuringMachine {
 private:
 //    trackCorrection bestaat zodat de head value stijgt terwijl hij naar
 //    links gaat als hij op de -inf track staat
-    int head{}, track{}, trackCorrection{};
+    int track;
     vector<Track> tracks;
     vector<string> instructions, currentState;
-    vector<string>* currentTrack{};
+    Track* currentTrack;
 
 public:
     UniversalTuringMachine();
@@ -31,9 +31,11 @@ public:
 
     tuple<string, char, bool, bool> readInstruction(const string&);
 
-    bool start(vector<string>, const string&);
+    pair<vector<string>, bool> start(const vector<string>&, const string&);
 
-    vector<string> calculate(vector<string> input, const string&);
+    vector<string> calculate(const vector<string>& input, const string&);
+
+    bool accepts(const vector<string>& input, const string&);
 
     void reset();
 
