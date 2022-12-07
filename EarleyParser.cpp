@@ -90,11 +90,11 @@ void EarleyParser::accepting(EarleyParser& second, string str){
             }
             chart++;
         }
-
         if(Break or !LastChart(Tabel,chart-1)){
             cout<<"Er is een foutje";
             break;
         }
+        Contains.clear();
     }
 }
 
@@ -102,6 +102,7 @@ void EarleyParser::TabelVullenSecond(EarleyParser& second, Objects* ob,map<pair<
     for(auto i:ob->getProducts()){
         state++;
         Tabel[{{ob,chart},state}] = {0,i};
+        Contains[{0,i}] = true;
         if(second.V.contains(i[0]->getnaam()) and i[0] != ob){
             TabelVullenSecond(second,i[0],Tabel,state,chart);
         }
@@ -130,8 +131,11 @@ void EarleyParser::OneDotAhead(string str,map<pair<pair<Objects*,int>,int>,pair<
             continue;
         }
         else if(i.second.second[j]->getnaam() == str ){
-            state++;
-            temporary[{{i.first.first.first,chart},state}] = {j+1,i.second.second};
+            if(!Contains.contains({j+1,i.second.second})){
+                state++;
+                temporary[{{i.first.first.first,chart},state}] = {j+1,i.second.second};
+                Contains[{j+1,i.second.second}] = true;
+            }
             if(j+1 == i.second.second.size()){
                 OneDotAhead(i.first.first.first->getnaam(),temporary,second,state,chart,twotime);
             }

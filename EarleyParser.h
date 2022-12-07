@@ -18,6 +18,7 @@ using json = nlohmann::json;
 
 class EarleyParser {
 private:
+    map<pair<int,vector<Objects*>>,bool> Contains;
     map<string,Objects*>V;
     Objects* S;
 

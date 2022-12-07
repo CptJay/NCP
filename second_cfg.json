@@ -1,19 +1,22 @@
 {
-  "Variable": ["S", "E", "C", "G"],
+  "Variable": ["S", "E", "C", "G", "A"],
   "Production": [
-    {"head": "S", "body": ["Type", "Var", "Equal", "E" ,"Dotkomma"]},
-    {"head": "S", "body": ["Var", "Equal", "E", "Dotkomma"]},
+    {"head": "S", "body": ["Type", "Var", "Equal", "C"]},
+    {"head": "S", "body": ["Var", "Equal", "C"]},
     {"head": "S", "body": ["Alphabet"]},
-    {"head": "E", "body": ["C"]},
-    {"head": "C", "body": ["Getal"]},
-    {"head": "C", "body": ["Var"]},
-    {"head": "C", "body": ["Openhaak", "C", "Geslotenhaak"]},
-    {"head": "C", "body": ["C", "ASMD", "C"]},
+    {"head": "C", "body": ["E", "A"]},
+    {"head": "A", "body": ["ASMD", "Var", "Dotkomma"]},
+    {"head": "A", "body": ["ASMD", "Getal", "Dotkomma"]},
+    {"head": "A", "body": ["Dotkomma"]},
+    {"head": "E", "body": ["Getal"]},
+    {"head": "E", "body": ["Var"]},
+    {"head": "E", "body": ["Openhaak", "E", "Geslotenhaak"]},
+    {"head": "E", "body": ["E", "ASMD", "E"]},
     {"head": "E", "body": ["Openbracket", "G", "Geslotenbracket"]},
     {"head": "G", "body": ["Getal", "G"]},
     {"head": "G", "body": ["Getal", "Streep", "G"]},
     {"head": "G", "body": ["Getal"]},
-    {"head": "E", "body": ["Function"]}
+    {"head": "C", "body": ["Function", "Dotkomma"]}
   ],
   "Start": ["S"]
 }
