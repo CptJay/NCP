@@ -11,7 +11,7 @@
     {"head":  "Getal", "body": ["Nummer"]},
     {"head":  "Komma", "body": ["Getal", ".", "Getal"]},
     {"head":  "Var", "body": ["Alphabet", "Getal"]},
-    {"head":  "Var", "body": ["Alphaber"]},
+    {"head":  "Var", "body": ["Alphabet"]},
     {"head":  "Function", "body": ["len", "(","Var",")"]},
     {"head":  "Function", "body": ["Det", "(","Var",")"]},
     {"head":  "Function", "body": ["Inv", "(","Var",")"]},

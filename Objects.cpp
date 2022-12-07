@@ -92,7 +92,7 @@ bool Objects::FunctionHelper(string str){
     bool erin = false;
     for(auto i:products){
         for(auto j:i){
-            if(str.size()>=3 and str == j->Naam){
+            if(str == j->Naam){
                 return true;
             }
             else if(str == j->Naam){
