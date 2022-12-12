@@ -3,14 +3,12 @@ project(NCP)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(untitled1 main.cpp
+set(SRC_FILES
+        main.cpp
         TuringMachine.cpp
-        TuringMachine.h
         EarleyParser.cpp
-        EarleyParser.h
         UniversalTuringMachine.cpp
-        UniversalTuringMachine.h
-        Objects.h
         Objects.cpp
-        Track.cpp
-        Track.h)
+        Track.cpp)
+
+add_executable(NCP ${SRC_FILES})
