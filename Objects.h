@@ -26,6 +26,7 @@ public:
     bool VarHelper(string str);
     bool Alhphabet(string str);
     bool Nummer(string str);
+    bool NummerKomma(string str);
 
 
 };

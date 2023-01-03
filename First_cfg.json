@@ -1,5 +1,5 @@
 {
-  "Variable": ["Type", "Alphabet", "Nummer", "Getal", "Komma", "Word", "Var", "Function", "ASMD", "Openhaak", "Geslotenhaak", "Openbracket", "Geslotenbracket", "Equal", "Dotkomma","Streep"],
+  "Variable": ["Type", "Alphabet", "Nummer", "Getal", "Komma", "Word", "Var", "Function", "ASMD", "Openhaak", "Geslotenhaak", "Openbracket", "Geslotenbracket", "Equal", "Dotkomma","Streep", "Power", "Variable"],
   "Production": [
     {"head":  "Type", "body":  ["double"]},
     {"head":  "Type", "body":  ["Vector"]},
@@ -16,7 +16,9 @@
     {"head":  "Function", "body": ["Det", "(","Var",")"]},
     {"head":  "Function", "body": ["Inv", "(","Var",")"]},
     {"head":  "Function", "body": ["Der", "(","Var",")"]},
+    {"head":  "Function", "body": ["Int", "(","Var",")"]},
     {"head":  "Function", "body": ["Tra", "(","Var",")"]},
+    {"head":  "Variable", "body": ["Var", "(","Var",")"]},
     {"head":  "ASMD", "body": ["-"]},
     {"head":  "ASMD", "body": ["+"]},
     {"head":  "ASMD", "body": ["*"]},
@@ -27,7 +29,8 @@
     {"head":  "Geslotenbracket", "body": ["]"]},
     {"head":  "Equal", "body": ["="]},
     {"head":  "Dotkomma", "body": [";"]},
-    {"head":  "Streep", "body": ["|"]}
+    {"head":  "Streep", "body": ["|"]},
+    {"head":  "Power", "body": ["^"]}
   ],
   "Start": ["S"]
 }

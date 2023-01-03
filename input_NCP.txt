@@ -1,13 +1,3 @@
-
-#Inner product
-double d = v1 * v2; # kan ook: <v1, v2>
-
-#Length
-double f = len(v1); 
-
-
-### Matrices ###
-Matrix m1 = [2 5 | 3 9];
 Matrix m2 = [v3 ; 3 4];
 
 #Addition
@@ -18,7 +8,7 @@ Matrix m3 = m1 + m2; #Oppassen voor dimensie!
 #Divition
 #Scalar product
 #Transpose
-Matrix m4 = T(m2); #m4 = [1 3; 2 4]
+Matrix m4 = T(m2); #m4 = [1 3; 2 4];
 
 #Determinant
 double f = Det(m4);
@@ -29,7 +19,7 @@ Matrix 5 = Inv(m4);
 
 ### Polynomials ### 
 
-Poly f (x) = 2x^2 + dx + a;
+Poly f (x) = 2x^2 + 2x + 4;
 
 #Derivative
 Poly g (x) = Der(f)

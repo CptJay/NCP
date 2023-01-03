@@ -21,7 +21,7 @@ int turingMachineProduct(UniversalTuringMachine& t, int x, int y) {
     for (int i = 0; i < y; ++i) {
         result.emplace_back("1");
     }
-    result = t.calculate(result, "../MultiplicationTM.json");
+    result = t.calculate(result, "MultiplicationTM.json");
     return (int) result.size();
 }
 
@@ -37,6 +37,6 @@ int main() {
     first.accepting(second,"NCP_Input.txt");
 //    accepteert 0^(2^n) met n >= 0
     UniversalTuringMachine t;
-    cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "../TMtest1.json");
+    cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "TMtest1.json");
     return 0;
 }

@@ -21,6 +21,7 @@ string Objects::getnaam(){
 }
 
 bool Objects::HelperSearch(string str){
+    ////Hier wordt gekeken of de string door een var wordt geproduceert of niet
     bool True = false;
     if(Naam == "Function"){
         string word;
@@ -43,7 +44,33 @@ bool Objects::HelperSearch(string str){
         }
         word = str.substr(str.size()-1,str.size()-1);
         return FunctionHelper(word);
-
+    }
+    else if(Naam == "Variable"){
+        if(str.size()<4){
+            return  false;
+        }
+        string word;
+        bool WentInside = false;
+        for(auto i:str){
+            if(i == '(' || i == ')'){
+                WentInside = true;
+                string temp;
+                temp+= i;
+                if(!products[0][0]->HelperSearch(word)){
+                    return false;
+                }
+                if(!FunctionHelper(temp)){
+                    return false;
+                }
+                word.clear();
+                continue;
+            }
+            word += i;
+        }
+        if(WentInside){
+            return true;
+        }
+        return false;
     }
     else if(Naam == "Var"){
         for(auto i:str){
@@ -67,16 +94,31 @@ bool Objects::HelperSearch(string str){
         return True;
     }
     else if(Naam == "Komma"){
+        bool komma = false;
         string getal1;
         string getal2;
         for(int i=0;i<str.size();i++){
             if(str[i] == '.'){
-                getal1 = str.substr(0,i-1);
+                komma = true;
+                getal1 = str.substr(0,i);
                 getal2 = str.substr(i+1,str.size()-1);
-                True = (Nummer(getal1) and Nummer(getal2));
+                for(auto j:getal1){
+                    string g;
+                    g.push_back(j);
+                    if(!NummerKomma(g)){
+                        return false;
+                    }
+                }
+                for(auto k:getal2){
+                    string g;
+                    g.push_back(k);
+                    if(!NummerKomma(g)){
+                        return false;
+                    }
+                }
             }
         }
-        return True;
+        return komma;
     }
     for(auto i:products){
         for(auto j:i){
@@ -133,6 +175,17 @@ bool Objects::Alhphabet(string str){
 
 bool Objects::Nummer(string str){
     for(auto i:products[0][0]->products){
+        for(auto j:i){
+            if(j->Naam == str){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Objects::NummerKomma(string str){
+    for(auto i:products[0][0]->products[0][0]->products){
         for(auto j:i){
             if(j->Naam == str){
                 return true;
