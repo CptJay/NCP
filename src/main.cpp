@@ -21,7 +21,7 @@ int turingMachineProduct(UniversalTuringMachine& t, int x, int y) {
     for (int i = 0; i < y; ++i) {
         result.emplace_back("1");
     }
-    result = t.calculate(result, "MultiplicationTM.json");
+    result = t.calculate(result, "testing_files/MultiplicationTM.json");
     return (int) result.size();
 }
 
@@ -29,14 +29,14 @@ int turingMachineProduct(UniversalTuringMachine& t, int x, int y) {
 
 int main() {
     /*
-    TuringMachine t("../exampleTM.json");
+    TuringMachine t("testing_files/exampleTM.json");
     cout << boolalpha << t.accepts({"A","A"});
      */
-    EarleyParser first("First_cfg.json");
-    EarleyParser second("Second_cfg.json");
-    first.accepting(second,"NCP_Input.txt");
+    EarleyParser first("testing_files/First_cfg.json");
+    EarleyParser second("testing_files/Second_cfg.json");
+    first.accepting(second,"testing_files/NCP_Input.txt");
 //    accepteert 0^(2^n) met n >= 0
     UniversalTuringMachine t;
-    cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "TMtest1.json");
+    cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "testing_files/TMtest1.json");
     return 0;
 }
