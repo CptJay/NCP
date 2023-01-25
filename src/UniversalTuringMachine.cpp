@@ -252,15 +252,16 @@ vector<string> UniversalTuringMachine::multiply(int x, int y) {
 }
 
 vector<string> UniversalTuringMachine::divide(int x, int y) {
-    vector<string> input {};
-    for (int i = 0; i < x; ++i) {
-        input.emplace_back("1");
-    }
-    input.emplace_back("C");
+    vector<string> result = {};
     for (int i = 0; i < y; ++i) {
-        input.emplace_back("1");
+        result.emplace_back("1");
     }
-    vector<string> result = start(input, "../basic_ops/DivisionTM.json").first;
+    result.emplace_back("0");
+    for (int i = 0; i < x; ++i) {
+        result.emplace_back("1");
+    }
+    result.emplace_back("0");
+    result = calculate(result, "basic_ops/DivisionTM.json");
     reset();
     return result;
 }

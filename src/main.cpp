@@ -11,6 +11,19 @@ vector<string> stringToVector(const string& input) {
     }
     return result;
 }
+int turingMachineDevision(UniversalTuringMachine& t, int x, int y) {
+    vector<string> result = {};
+    for (int i = 0; i < y; ++i) {
+        result.emplace_back("1");
+    }
+    result.emplace_back("0");
+    for (int i = 0; i < x; ++i) {
+        result.emplace_back("1");
+    }
+    result.emplace_back("0");
+    result = t.calculate(result, "basic_ops/DivisionTM.json");
+    return (int) result.size();
+}
 
 int turingMachineProduct(UniversalTuringMachine& t, int x, int y) {
     vector<string> result = {};
