@@ -237,4 +237,66 @@ void UniversalTuringMachine::reset() {
     currentTrack = &tracks[0];
 }
 
+vector<string> UniversalTuringMachine::multiply(int x, int y) {
+    vector<string> input {};
+    for (int i = 0; i < x; ++i) {
+        input.emplace_back("1");
+    }
+    input.emplace_back("C");
+    for (int i = 0; i < y; ++i) {
+        input.emplace_back("1");
+    }
+    vector<string> result = start(input, "../basic_ops/MultiplicationTM.json").first;
+    reset();
+    return result;
+}
+
+vector<string> UniversalTuringMachine::divide(int x, int y) {
+    vector<string> input {};
+    for (int i = 0; i < x; ++i) {
+        input.emplace_back("1");
+    }
+    input.emplace_back("C");
+    for (int i = 0; i < y; ++i) {
+        input.emplace_back("1");
+    }
+    vector<string> result = start(input, "../basic_ops/DivisionTM.json").first;
+    reset();
+    return result;
+}
+
+//    Input:  0 0 0 c 0 0 0 0  // (3 - 4) or (4 - 3)
+//    Output:  0              // (1)
+
+vector<string> UniversalTuringMachine::add(int x, int y) {
+    vector<string> input {};
+    for (int i = 0; i < x; ++i) {
+        input.emplace_back("1");
+    }
+    input.emplace_back("C");
+    for (int i = 0; i < y; ++i) {
+        input.emplace_back("1");
+    }
+    vector<string> result = start(input, "../basic_ops/AdditionTM.json").first;
+    reset();
+    return result;
+}
+
+vector<string> UniversalTuringMachine::subtract(int x, int y) {
+
+    // Biggest number should be the first
+
+    vector<string> input {};
+    for (int i = 0; i < y; ++i) {
+        input.emplace_back("1");
+    }
+    input.emplace_back("C");
+    for (int i = 0; i < x; ++i) {
+        input.emplace_back("1");
+    }
+    vector<string> result = start(input, "../basic_ops/SubtractionTM.json").first;
+    reset();
+    return result;
+}
+
 UniversalTuringMachine::~UniversalTuringMachine() = default;

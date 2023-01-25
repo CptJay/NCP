@@ -39,6 +39,14 @@ public:
 
     void reset();
 
+    vector<string> multiply(int x, int y);
+
+    vector<string> divide(int x, int y);
+
+    vector<string> add(int x, int y);
+
+    vector<string> subtract(int x, int y);
+
     ~UniversalTuringMachine();
 };
 
