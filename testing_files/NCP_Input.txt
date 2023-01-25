@@ -56,7 +56,7 @@ Matrix 5 = Inv(m4);
 
 ### Polynomials ###
 
-Poly f(x) = 2x^2 + 1x^1 + a;
+Poly f(x) = 2x^2 + 1x^1 + a1;
 
 #Derivative
 Poly g(x) = Der(f);

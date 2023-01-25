@@ -168,7 +168,7 @@ void EarleyParser::accepting(EarleyParser& second, string str){
         ////Break wilt zeggen als er geen enkel Variable is die de woord heeft als productie
         ////LastChart Kijkt of de dot op het einde is gekomen
         if(Break or !LastChart(Tabel,chart-1)){
-            cout<<"Er is een foutje";
+            cout<<"Er is een foutje in lijn: " + word <<endl;
             exit(0);
         }
         cout<<lines<<endl;
@@ -202,17 +202,19 @@ bool EarleyParser::Search(string str,map<pair<pair<Objects*,int>,int>,pair<int,v
     bool Erin = false;
     for(auto i:V){
         if(i.second->HelperSearch(str)){
-            OneDotAhead(i.first,Tabel,second,state,chart,twotime);
-            Erin = true;
+            if(OneDotAhead(i.first,Tabel,second,state,chart,twotime)){
+                Erin = true;
+            }
         }
     }
     return Erin;
 }
 
-void EarleyParser::OneDotAhead(string str,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,EarleyParser& second, int& state, int& chart, map<string,bool>& twotime){
+bool EarleyParser::OneDotAhead(string str,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,EarleyParser& second, int& state, int& chart, map<string,bool>& twotime){
     ////Hiet wordt de dot een plaats naar rechts vertplaats als wij een Variable hebben gevonden die de string produceert.
     ////Het Gevonden variable moet het variable zijn waar de dot zich bevind in de tabel met producties
     map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>> temporary = Tabel;
+    bool erin = false;
     for(auto i:Tabel){
         ////Wij loopen door alle producties in tabel
         int j = i.second.first;
@@ -221,13 +223,18 @@ void EarleyParser::OneDotAhead(string str,map<pair<pair<Objects*,int>,int>,pair<
             continue;
         }
         else if(i.second.second[j]->getnaam() == str ){
+            if(Contains.contains({j+1,i.second.second})){
+                erin = true;
+            }
             ////Als wij een productie hebben gevonden die de variable heeft kijken wij of de nieuwe productie die wij gaan maken door de dot naar rechts te doen al bestaat of niet
             if(!Contains.contains({j+1,i.second.second})){
+                erin = true;
                 state++;
                 temporary[{{i.first.first.first,chart},state}] = {j+1,i.second.second};
                 Contains[{j+1,i.second.second}] = true;
             }
             if(j+1 == i.second.second.size()){
+                erin = true;
                 ////Als het dot naar recht doen en wij zijn bij de einde, Dan moeten wij de Variable van de productie pakken
                 ////Wij zullen dan weer in de tabel moeten zoeken maar deze keer met de nieuwe variable
                 OneDotAhead(i.first.first.first->getnaam(),temporary,second,state,chart,twotime);
@@ -237,10 +244,15 @@ void EarleyParser::OneDotAhead(string str,map<pair<pair<Objects*,int>,int>,pair<
                 ////Als wij een een dot naar recht doen en komen een variable tegen, Dan moeten wij al de productie van die var in de tabel doen
                 TabelVullenSecond(second,i.second.second[j+1],temporary,state,chart);
                 twotime[i.second.second[j+1]->getnaam()] = true;
+                erin = true;
             }
         }
     }
+    if(!erin){
+        return false;
+    }
     Tabel = temporary;
+    return true;
 }
 
 bool EarleyParser::LastChart(map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel, int chart){
