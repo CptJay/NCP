@@ -56,7 +56,6 @@ void EarleyParser::accepting(EarleyParser& second, string str){
     string lines;
     while(getline(newfile,lines)){
         map<string,bool> twotime;
-        cout<<lines;
         int state =0;                                                                   // verschillende state voor elk dot beweging
         int chart = 0;                                                                  // chart zegt in welk fase wij zitten
         bool Break = false;                                                             // als er foute input is
@@ -74,6 +73,9 @@ void EarleyParser::accepting(EarleyParser& second, string str){
         while(getline(ss,word,' ')){
             if(word[0] == '#'){
                 ////Na #heb jij commentaren
+                break;
+            }
+            if(word == "\r"){
                 break;
             }
             if(word[word.size()-1] == '\r'){
@@ -153,6 +155,7 @@ void EarleyParser::accepting(EarleyParser& second, string str){
             cout<<"Er is een foutje";
             exit(0);
         }
+        cout<<lines<<endl;
         Contains.clear();
     }
 }
