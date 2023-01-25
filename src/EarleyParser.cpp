@@ -17,6 +17,9 @@ EarleyParser::EarleyParser(string str) {
     for(auto l:j["Variable"]){
         Objects* ob = new Objects(false,l);
         V[l] = ob;
+        if(l == "Var"){
+            Variable_Object = &*ob;
+        }
     }
 
     ////Hier geef ik al de variable hun eigen productie
