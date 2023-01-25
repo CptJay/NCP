@@ -56,10 +56,10 @@ Matrix 5 = Inv(m4);
 
 ### Polynomials ###
 
-Poly f (x) = 2x^2 + 1x^1 + a1;
+Poly f(x) = 2x^2 + 1x^1 + a;
 
 #Derivative
-Poly g (x) = Der(f);
+Poly g(x) = Der(f);
 
 #Integration
-Poly h (x) = Int(f);
+Poly h(x) = Int(f);

@@ -61,7 +61,8 @@ void EarleyParser::accepting(EarleyParser& second, string str){
         map<string,bool> twotime;
         int state =0;                                                                   // verschillende state voor elk dot beweging
         int chart = 0;                                                                  // chart zegt in welk fase wij zitten
-        bool Break = false;                                                             // als er foute input is
+        bool Break = false;     // als er foute input is
+        Equal_sign = false;
         map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>> Tabel;             //Hie hou ik alles bij van dots verplaatsing
         TabelVullenSecond(second,second.S,Tabel,state,chart);
         stringstream ss(lines);
@@ -74,13 +75,17 @@ void EarleyParser::accepting(EarleyParser& second, string str){
 
         /////String word verdeelt in kleinere stukken
         while(getline(ss,word,' ')){
-            if(word[0] == '#'){
+            if(word == "="){
+                Equal_sign = true;
+            }
+            if(word[0] == '#' or word == "\r"){
                 ////Na #heb jij commentaren
                 break;
             }
-            if(word == "\r"){
-                break;
+            if(!Equal_sign and !Bestaand_Variable.contains(word)){
+                Bestaand_Variable[word] = true;
             }
+
             if(word[word.size()-1] == '\r'){
                 ////Bij de laaste woord van de zin heb jij \r aan het uiteinde
                 word.pop_back();
@@ -98,6 +103,10 @@ void EarleyParser::accepting(EarleyParser& second, string str){
                 if(Break){
                     break;
                 }
+                Break = !Variable_check(word);
+                if(Break){
+                    break;
+                }
             }
             ////Woorden dat begint met ( wordt in drie stukken verddelt. (, midden en )
             else if(word[0] == '(' && word[word.size()-1] == ')'){
@@ -112,11 +121,15 @@ void EarleyParser::accepting(EarleyParser& second, string str){
                 }
                 chart++;
                 word = st;
-
                 Break = !Search(word,Tabel,second,state,chart,twotime);
                 if(Break){
                     break;
                 }
+                Break = Variable_check(word);
+                if(Break){
+                    break;
+                }
+
                 chart++;
                 Break = !Search(dotkomma,Tabel,second,state,chart,twotime);
                 if(Break){
@@ -161,6 +174,13 @@ void EarleyParser::accepting(EarleyParser& second, string str){
         cout<<lines<<endl;
         Contains.clear();
     }
+}
+
+bool EarleyParser::Variable_check(string word){
+    if(Equal_sign and !Bestaand_Variable.contains(word) and Variable_Object->HelperSearch(word)){
+        return false;
+    }
+    return true;
 }
 
 void EarleyParser::TabelVullenSecond(EarleyParser& second, Objects* ob,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel, int& state,int& chart){

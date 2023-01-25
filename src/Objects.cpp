@@ -78,6 +78,9 @@ bool Objects::HelperSearch(string str){
                 string letter;
                 letter.push_back(i);
                 True = Alhphabet(letter);
+                if(!True){
+                    return false;
+                }
             }
             else{
                 True = VarHelper(str.substr(1,str.size()-1));
