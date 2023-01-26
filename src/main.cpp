@@ -23,8 +23,6 @@ vector<string> stringToVector(const string& input) {
 //    return (int) result.size();
 //}
 
-
-
 int main() {
     /*
     TuringMachine t("testing_files/exampleTM.json");
@@ -36,12 +34,12 @@ int main() {
 //    accepteert 0^(2^n) met n >= 0
     UniversalTuringMachine t;
     Computing tm;
-    cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "../testing_files/TMtest1.json")<<endl;
-    cout << t.divide(8,2).size() << endl;
+    // cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "../testing_files/TMtest1.json")<<endl;
+    // cout << t.divide(8,2) << endl;
 
 
-    bool computingTests = true;
-    if (computingTests){
+
+    if (false){
         cout << endl << "Computing Tests" << endl << "---------------" << endl;
 
         cout << "*Adding Polynomials: " << endl;
@@ -90,8 +88,7 @@ int main() {
 
     }
 
-    cout<<t.divide(8,2).size()<<endl;
-    map<vector<string>,vector<string>> temp = first.GetVolgorde();
+    //map<vector<string>,vector<string>> temp = first.GetVolgorde();
 
     return 0;
 }

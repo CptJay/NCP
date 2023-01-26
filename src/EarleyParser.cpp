@@ -188,6 +188,7 @@ void EarleyParser::accepting(EarleyParser& second, string str){
             cout<<"Er is een foutje in lijn: " + word <<endl;
             exit(0);
         }
+        volgorde.pop_back();
         Volgorde[volgorde_name] = volgorde;
         cout<<lines<<endl;
         Contains.clear();

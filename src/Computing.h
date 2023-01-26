@@ -8,6 +8,9 @@ class Computing {
 private:
     UniversalTuringMachine t;
 
+private:
+
+
 public:
     Computing();
 
@@ -36,6 +39,23 @@ public:
     std::vector<std::vector<double>> transpose(std::vector<std::vector<double>> matrix);
     // inverse wss Eigen/Dense library
 
+    /**
+     * Methods regarding vectors
+     */
+    std::vector<double> add_vectors(std::vector<double> vec1, std::vector<double> vec2);
+    std::vector<double> subtract_vectors(std::vector<double> vec1, std::vector<double> vec2);
+    std::vector<double> multiply_vectors(std::vector<double> vec1, std::vector<double> vec2);
+
+    /**
+     * Basic operations
+     * @param x integer variable 1
+     * @param y integer variable 2
+     * @return solution
+     */
+    int multiply(int x, int y);
+    int divide(int x, int y);
+    int add(int x, int y);
+    int subtract(int x, int y);
 
 
 

@@ -88,7 +88,7 @@ std::vector<double> Computing::derive(const vector<double> &coefs) {
      */
     // 5 3 2
     if (coefs.empty()){
-        std::cout << "No coefficients found." << std::endl;
+        std::cout << "Error: No coefficients found." << std::endl;
         return {};
     }
 
@@ -104,7 +104,7 @@ std::vector<double> Computing::derive(const vector<double> &coefs) {
 std::vector<double> Computing::integrate(const vector<double> &coefs) {
 
     if (coefs.empty()){
-        std::cout << "No coefficients found." << endl;
+        std::cout << "Error: No coefficients found." << endl;
     }
 
     std::vector<double> result;
@@ -126,7 +126,7 @@ std::vector<std::vector<double>> Computing::transpose(std::vector<std::vector<do
     int cols = matrix[0].size();
 
     if (rows == 0 || cols == 0){
-        std::cout << "Either rows or columns of matrix has size 0." << std::endl;
+        std::cout << "Error: Either rows or columns of matrix has size 0." << std::endl;
     }
 
     std::vector<std::vector<double>> transposedMatrix(cols, std::vector<double>(rows));
@@ -144,7 +144,7 @@ Computing::add_matrices(const vector<std::vector<double>> &mat1, const vector<st
 
     for (int i = 0; i < mat1.size(); i++) {
         for (int j = 0; j < mat1[i].size(); j++) {
-            result[i][j] = mat1[i][j] + mat2[i][j];
+            result[i][j] = add(mat1[i][j], mat2[i][j]);
         }
     }
 
@@ -160,7 +160,6 @@ Computing::subtract_matrices(const vector<std::vector<double>> &mat1, const vect
             result[i][j] = mat1[i][j] - mat2[i][j];
         }
     }
-
     return result;
 }
 
@@ -173,9 +172,98 @@ Computing::multiply_matrices(const vector<std::vector<double>> &mat1, const vect
     for (int i = 0; i < mat1.size(); i++) {
         for (int j = 0; j < mat2[0].size(); j++) {
             for (int k = 0; k < mat1[0].size(); k++) {
-                result[i][j] += mat1[i][k] * mat2[k][j];
+                result[i][j] += multiply(mat1[i][k], mat2[k][j]);
             }
         }
+    }
+
+    return result;
+}
+
+int Computing::add(int x, int y) {
+    int result {};
+    if (abs(x) < abs(y)) {
+        swap(x, y);
+    }
+    if (x >= 0 and y >= 0 or x < 0 and y < 0) {
+        result = t.add(x, y);
+    }
+    else {
+        result = t.subtract(x, y);
+    }
+    if (x < 0) {
+        return -result;
+    }
+    return result;
+}
+
+int Computing::subtract(int x, int y) {
+    int result {};
+    if (abs(x) < abs(y)) {
+        swap(x, y);
+    }
+    if (x >= 0 and y >= 0 or x < 0 and y < 0) {
+        result = t.subtract(x, y);
+    }
+    else {
+        result = t.add(x, y);
+    }
+    if (x < 0) {
+        return -result;
+    }
+    return result;
+}
+
+int Computing::multiply(int x, int y) {
+    int result = t.multiply(x, y);
+    if (x >= 0 and y >= 0 or x < 0 and y < 0) {
+        return result;
+    }
+    return -result;
+}
+
+int Computing::divide(int x, int y) {
+    int result = t.divide(x, y);
+    if (x >= 0 and y >= 0 or x < 0 and y < 0) {
+        return result;
+    }
+    return -result;
+}
+
+std::vector<double> Computing::subtract_vectors(const std::vector<double> vec1, const std::vector<double> vec2) {
+
+    std::vector<double> result(vec1.size());
+
+    if (vec1.size() != vec2.size()) {
+        std::cout << "Error: vectors have different sizes!" << std::endl;
+        return result;
+    }
+
+    for (int i = 0; i < vec1.size(); i++) {
+        result[i] = subtract(vec1[i], vec2[i]);
+    }
+
+    return result;
+}
+
+std::vector<double> Computing::add_vectors(const std::vector<double> vec1, const std::vector<double> vec2) {
+    std::vector<double> result {};
+    for (int i = 0; i < vec1.size(); i++) {
+        result.push_back(this->add(vec1[i], vec2[i]));
+    }
+    return result;
+}
+
+std::vector<double> Computing::multiply_vectors(std::vector<double> vec1, std::vector<double> vec2) {
+    std::vector<double> result(vec1.size());
+
+    if (vec1.size() != vec2.size()) {
+        std::cout << "Error: vectors have different sizes!" << std::endl;
+        return result;
+    }
+
+    for (int i = 0; i < vec1.size(); i++) {
+        result[i] = this->multiply(vec1[i], vec2[i]);
     }
 
     return result;
