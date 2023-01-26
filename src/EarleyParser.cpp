@@ -57,6 +57,10 @@ void EarleyParser::accepting(EarleyParser& second, string str){
     ////Open de file
     ifstream newfile(str);
     string lines;
+    if (!newfile.is_open()){
+        cout << "Unable to open file";
+        exit(0);
+    }
     while(getline(newfile,lines)){
         map<string,bool> twotime;
         int state =0;                                                                   // verschillende state voor elk dot beweging

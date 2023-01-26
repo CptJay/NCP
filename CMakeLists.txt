@@ -9,6 +9,6 @@ set(SRC_FILES
         src/EarleyParser.cpp
         src/UniversalTuringMachine.cpp
         src/Objects.cpp
-        src/Track.cpp)
+        src/Track.cpp src/Computing.cpp src/Computing.h)
 
 add_executable(NCP ${SRC_FILES})
