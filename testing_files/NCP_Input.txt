@@ -42,6 +42,8 @@ Matrix m2 = [v3 | 3 4];
 Matrix m3 = m1 + m2; #Oppassen voor dimensie!
 
 #Substraction
+Matrix m4 = m3 - m2; #Oppassen voor dimensie!
+
 #Multiplication
 #Divition
 #Scalar product

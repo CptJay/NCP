@@ -19,12 +19,15 @@ class Calculator {
 
     UniversalTuringMachine t;
     Computing tm;
-    map<string,int> Map;
+    map<string,pair<vector<string>,string>> Map_Vriable; // variabel naam, <vector van wat er in zit, type element>
+
+
 public:
+    bool sign_check(vector<string>v);
     Calculator(map<vector<string>,vector<string>>);
-    void Haakjes(int i, vector<string>Vector);
+    pair<int,string> Haakjes(int i, vector<string>Vector,string type);
     void Oefeningen(map<vector<string>,vector<string>>);
-    void Een_Oef(string,vector<string>);
+    vector<string> Double_Oefening(string type, vector<string>V);
     void Bereken();
     vector<string> evaluateMatrixExpression(const vector<std::vector<double>> &mat1, const vector<std::vector<double>> &mat2,char op);
     int evaluate(vector<string> expression);

@@ -185,7 +185,7 @@ void EarleyParser::accepting(EarleyParser& second, string str){
         ////Break wilt zeggen als er geen enkel Variable is die de woord heeft als productie
         ////LastChart Kijkt of de dot op het einde is gekomen
         if(Break or !LastChart(Tabel,chart-1)){
-            cout<<"Er is een foutje in lijn: " + word <<endl;
+            cout<<"Er is een foutje in lijn: " + lines <<endl;
             exit(0);
         }
         volgorde.pop_back();

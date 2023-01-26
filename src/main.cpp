@@ -28,10 +28,14 @@ int main() {
     TuringMachine t("testing_files/exampleTM.json");
     cout << boolalpha << t.accepts({"A","A"});
      */
+
     EarleyParser first("../testing_files/First_cfg.json");
     EarleyParser second("../testing_files/Second_cfg.json");
     first.accepting(second,"../testing_files/NCP_Input.txt");
 //    accepteert 0^(2^n) met n >= 0
+    Calculator c(first.GetVolgorde());
+
+
     UniversalTuringMachine t;
     Computing tm;
     // cout << boolalpha << t.accepts(stringToVector("00000000000000000"), "../testing_files/TMtest1.json")<<endl;

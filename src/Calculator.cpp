@@ -12,7 +12,8 @@ void Calculator::Bereken() {
 
 
 
-void Calculator::Haakjes(int index, vector<string>Vector){
+pair<int,string> Calculator::Haakjes(int index, vector<string>Vector,string type){
+    int x;
     vector<string> temp = {};
     for(int i = 0; i< index;i++){
         temp.emplace_back(Vector[i]);
@@ -20,19 +21,54 @@ void Calculator::Haakjes(int index, vector<string>Vector){
     vector<string> tem = {};
     for(int i = index+1; i < Vector.size();i++){
         if(Vector[i] == ")"){
-
+            x = i;
+            break;
         }
         tem.emplace_back(Vector[i]);
     }
+    return {x,Double_Oefening(type,tem)[0]};
 }
 
-string Calculator::Een_Oef(string type, vector<string>V) {
-    int n = 1;
+vector<string> Change_vector(int begin, int end, vector<string> V, const string &new_value){
+    vector<string> temp = {};
+    for(int i=0; i < begin; i++){
+        temp.emplace_back(V[i]);
+    }
 
+    temp.emplace_back(new_value);
+    for(int i=end+1;i<V.size();i++){
+        temp.emplace_back(V[i]);
+    }
+    return temp;
+}
+
+// 9 + 5 + 40 + 9
+vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
+    int tempNames {};
+    vector<string>a {};
+    vector<string>b {};
+    int new_value {};
+    string Wat_is_het = "niks";
+    int n = 1;
     while(V.size() != n){
-        bool Einde_bereikt = false;
         int index = 0;
-        while(!Einde_bereikt){
+        while(true){
+            if(V[index] == "("){
+                //int1 geeft sluitend haakje
+                //int2 is de value
+                pair<int,string> new_values = Haakjes(index,V,type);
+                V.erase(V.begin()+index, V.begin() + new_values.first);
+                V.insert(V.begin()+index, V.begin(), V.end());
+                //V = Change_vector(index,new_values.first,V, new_values.second);
+                index = 0;
+            }
+            if(index == V.size()-1){
+                break;
+            }
+            index++;
+        }
+        index = 0;
+        while(true){
             if(V[index] =="*" or V[index] == "/"){
                 string Before = V[index-1];
                 string After = V[index+1];
@@ -152,20 +188,42 @@ string Calculator::Een_Oef(string type, vector<string>V) {
             index++;
         }
     }
+    return V;
 }
 
-void Calculator::Oefeningen(map<vector<string>, vector<string>>Map) {
-    for(const auto &i:Map){
-        Een_Oef(i.first[0],i.second);
+
+
+
+void Calculator::Oefeningen(map<vector<string>, vector<string>>Mappen) {
+    for(const auto &i:Mappen){
+        Double_Oefening(i.first[0],i.second);
+        cout<<i.first[1] <<"=";
+        for(const auto &j:Map_Vriable[i.first[1]].first){
+            cout<<j<<endl;
+        }
     }
+}
+
+bool Calculator::sign_check(vector<string>v){
+    for(auto i:v){
+        if(i == "+" | i == "-" | i == "*" | i == "/"){
+            return true;
+        }
+    }
+    return false;
 }
 
 Calculator::Calculator(map<vector<string>, vector<string>> m) {
-    for(auto i: m){
+    for(const auto &i: m){
         if(i.second.size() == 1){
-            map[i.first[1]] = stoi(i.second[0]);
+            Map_Vriable[i.first[1]] = {i.second,i.first[0]};
+        }
+        if((i.first[0] == "Vector" or i.first[0] == "Matrix") and !sign_check(i.second)){
+            Map_Vriable[i.first[1]] = {i.second,i.first[0]};
         }
     }
+    Oefeningen(m);
+
 }
 
 
