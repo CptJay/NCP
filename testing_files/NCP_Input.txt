@@ -7,6 +7,7 @@ double c = a + b; #c=12
 
 #Substraction
 a = c - a; #a=7
+a = d - (5 + 9);
 
 #Multiplication
 b = a * c; #
@@ -51,7 +52,7 @@ Matrix m4 = Tra(m2); #m4 = [1 3 | 2 4]
 double f = Det(m4);
 
 #Inverse
-Matrix m5 = Inv(m4);
+Matrix g = Inv(m4);
 
 
 ### Polynomials ###

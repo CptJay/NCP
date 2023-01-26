@@ -20,10 +20,13 @@ class EarleyParser {
 private:
     map<pair<int,vector<Objects*>>,bool> Contains;
     bool Equal_sign;
+    string Slaag_in_Var;
     map<string,Objects*>V;
     map<string, bool> Bestaand_Variable;
     Objects* Variable_Object;
     Objects* S;
+    map<vector<string>,vector<string>> Volgorde;
+
 
 public:
     EarleyParser();
@@ -35,8 +38,12 @@ public:
     bool Search(string str,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,EarleyParser& second, int& state, int& chart, map<string,bool>& twotime);
     bool OneDotAhead(string str,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,EarleyParser& second, int& state, int& chart, map<string,bool>& twotime);
     bool LastChart(map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel, int chart);
-
+    map<vector<string>,vector<string>> GetVolgorde() const;
     };
 
 
 #endif //NCP_EARLEYPARSER_H
+
+
+
+

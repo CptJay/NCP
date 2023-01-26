@@ -71,6 +71,9 @@ void EarleyParser::accepting(EarleyParser& second, string str){
         TabelVullenSecond(second,second.S,Tabel,state,chart);
         stringstream ss(lines);
         string word;
+        vector<string>volgorde_name;
+        vector<string>volgorde;
+
 
         ////Als het # of \r is moet je die lijn skippen
         if(lines == "\r" or lines[0] == '#'){
@@ -79,8 +82,12 @@ void EarleyParser::accepting(EarleyParser& second, string str){
 
         /////String word verdeelt in kleinere stukken
         while(getline(ss,word,' ')){
+            int size = int(volgorde.size());
             if(word == "="){
                 Equal_sign = true;
+            }
+            if(!Equal_sign){
+                volgorde_name.emplace_back(word);
             }
             if(word[0] == '#' or word == "\r"){
                 ////Na #heb jij commentaren
@@ -88,6 +95,10 @@ void EarleyParser::accepting(EarleyParser& second, string str){
             }
             if(!Equal_sign and !Bestaand_Variable.contains(word)){
                 Bestaand_Variable[word] = true;
+                Slaag_in_Var = word;
+            }
+            if(Equal_sign and Bestaand_Variable.contains(word)){
+                Slaag_in_Var = word;
             }
 
             if(word[word.size()-1] == '\r'){
@@ -101,6 +112,7 @@ void EarleyParser::accepting(EarleyParser& second, string str){
                 if(Break){
                     break;
                 }
+                volgorde.emplace_back(BeginChar);
                 chart++;
                 word.erase(word.begin());
                 Break = !Search(word,Tabel,second,state,chart,twotime);
@@ -111,34 +123,29 @@ void EarleyParser::accepting(EarleyParser& second, string str){
                 if(Break){
                     break;
                 }
+                volgorde.emplace_back(word);
             }
             ////Woorden dat begint met ( wordt in drie stukken verddelt. (, midden en )
-            else if(word[0] == '(' && word[word.size()-1] == ')'){
-                string dotkomma = word.substr(word.size()-1, word.size()-1);
-                word.pop_back();
-
-                string st = word.substr(word.size()-1,word.size()-1);
-                word.pop_back();
-                Break = !Search(word,Tabel,second,state,chart,twotime);
-                if(Break){
-                    break;
-                }
-                chart++;
-                word = st;
-                Break = !Search(word,Tabel,second,state,chart,twotime);
-                if(Break){
-                    break;
-                }
-                Break = Variable_check(word);
-                if(Break){
-                    break;
-                }
-
-                chart++;
+            else if(word[0] == '('){
+                string dotkomma = {word[0]};
+                word.erase(word.begin());
                 Break = !Search(dotkomma,Tabel,second,state,chart,twotime);
                 if(Break){
                     break;
                 }
+                volgorde.emplace_back(dotkomma);
+                chart++;
+                Break = !Search(word,Tabel,second,state,chart,twotime);
+                if(Break){
+                    break;
+                }
+                Break = !Variable_check(word);
+                if(Break){
+                    break;
+                }
+                volgorde.emplace_back(word);
+                chart++;
+
             }
             ////Woorden dat eindigen met ; moet in stukken gekeken worden
             else if((word[word.size()-1] == ';') && word.size() != 1){          // door deze else if mogen mensen ';' plakken op het einde
@@ -151,6 +158,7 @@ void EarleyParser::accepting(EarleyParser& second, string str){
                     if(Break){
                         break;
                     }
+                    volgorde.emplace_back(word);
                     word = st;
                 }
                 Break = !Search(word,Tabel,second,state,chart,twotime);
@@ -158,13 +166,18 @@ void EarleyParser::accepting(EarleyParser& second, string str){
                     break;
                 }
                 chart++;
+                volgorde.emplace_back(word);
                 Break = !Search(dotkomma,Tabel,second,state,chart,twotime);
+                volgorde.emplace_back(dotkomma);
             }
 
             ////normale woorden zoals 2,2x,a,+ etc worden hier gekeken
             else if(!Search(word,Tabel,second,state,chart,twotime)){
                 Break =true;
                 break;
+            }
+            if(size == int(volgorde.size()) and (Equal_sign and word != "=")){
+                volgorde.emplace_back(word);
             }
             chart++;
         }
@@ -175,6 +188,7 @@ void EarleyParser::accepting(EarleyParser& second, string str){
             cout<<"Er is een foutje in lijn: " + word <<endl;
             exit(0);
         }
+        Volgorde[volgorde_name] = volgorde;
         cout<<lines<<endl;
         Contains.clear();
     }
@@ -273,4 +287,8 @@ bool EarleyParser::LastChart(map<pair<pair<Objects*,int>,int>,pair<int,vector<Ob
         }
     }
     return true;
+}
+
+map<vector<string>,vector<string>> EarleyParser::GetVolgorde() const {
+    return Volgorde;
 }

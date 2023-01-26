@@ -1,8 +1,5 @@
 #include <iostream>
-#include "UniversalTuringMachine.h"
-#include "Track.h"
-#include "EarleyParser.h"
-#include "Computing.h"
+#include "Calculator.h"
 using namespace std;
 
 vector<string> stringToVector(const string& input) {
@@ -92,6 +89,9 @@ int main() {
 
 
     }
+
+    cout<<t.divide(8,2).size()<<endl;
+    map<vector<string>,vector<string>> temp = first.GetVolgorde();
 
     return 0;
 }
