@@ -20,7 +20,7 @@ public:
     std::vector<double> addPolynomials(std::vector<double> p1, std::vector<double> p2);
     std::vector<double> subtractPolynomials(std::vector<double> p1, std::vector<double> p2);
     std::vector<double> multiplyPolynomials(std::vector<double> p1, std::vector<double> p2);
-    std::vector<double> divide_polynomials(std::vector<double> &p1, std::vector<double> &p2);
+    std::vector<double> divide_polynomials(const std::vector<double> &p1, const std::vector<double> &p2);
     std::vector<double> derive(const std::vector<double>& coefs);
     std::vector<double> integrate(const std::vector<double>& coefs);
 

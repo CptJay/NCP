@@ -5,16 +5,28 @@ Computing::Computing() = default;
 
 std::vector<double> Computing::addPolynomials(std::vector<double> p1, std::vector<double> p2) {
     std::vector<double> sum;
+
+    std::vector<unsigned long > test;
+    bool testLong = false;
+
     int size1 = p1.size();
     int size2 = p2.size();
     int size = std::max(size1, size2);
     for (int i = 0; i < size; i++) {
         if (i < size1 && i < size2) {
-            sum.push_back(t.add(p1[i], p2[i]).size()); //sum.push_back(p1[i] + p2[i]);
+            sum.push_back(t.add(p1[i], p2[i]).size());
+            test.push_back(t.add(p1[i], p2[i]).size());
+            //sum.push_back(p1[i] + p2[i]);
         } else if (i >= size1) {
             sum.push_back(p2[i]);
         } else {
             sum.push_back(p1[i]);
+        }
+    }
+
+    if (testLong){
+        for (auto i : test) {
+            cout << "Testing accuracy: " << i << endl;
         }
     }
     return sum;
@@ -49,7 +61,7 @@ std::vector<double> Computing::multiplyPolynomials(std::vector<double> p1, std::
     return product;
 }
 
-std::vector<double> Computing::divide_polynomials(vector<double> &p1, vector<double> &p2) {
+std::vector<double> Computing::divide_polynomials(const vector<double> &p1, const vector<double> &p2) {
     std::vector<double> quotient;
     std::vector<double> remainder = p1;
 
@@ -74,15 +86,16 @@ std::vector<double> Computing::derive(const vector<double> &coefs) {
      *
      * Example: 3x^2 + 2x + 1 has vector = [3, 2, 1] as input
      */
-
+    // 5 3 2
     if (coefs.empty()){
-        std::cout << "No coeffs found." << std::endl;
+        std::cout << "No coefficients found." << std::endl;
+        return {};
     }
 
     std::vector<double> result;
 
-    for (int i = 1; i < coefs.size(); i++) {
-        result.push_back(t.multiply(coefs[i], i).size());
+    for (int i = 0; i < coefs.size()-1; i++){
+        result.push_back(t.multiply(coefs[i], coefs.size()-1-i).size());
     }
 
     return result;
@@ -94,12 +107,13 @@ std::vector<double> Computing::integrate(const vector<double> &coefs) {
         std::cout << "No coefficients found." << endl;
     }
 
-    std::vector<double> result(coefs.size()+1);
+    std::vector<double> result;
 
-    for (int i = 0; i < coefs.size(); i++) {
-        result[i+1] = t.divide(coefs[i],i+1).size();
+    for (int i = 0; i < coefs.size()-1; i++) {
+//        result[i+1] = t.divide(coefs[i],i+1).size();
+        result.push_back(t.divide(coefs[i], coefs.size()-i).size());
     }
-
+    result.push_back(coefs[coefs.size()-1]);
     return result;
 }
 
