@@ -7,7 +7,7 @@ double c = a + b; #c=12
 
 #Substraction
 a = c - a; #a=7
-a = d - (5 + 9);
+a = d - 5 * 9 + 7;
 
 #Multiplication
 b = a * c; #

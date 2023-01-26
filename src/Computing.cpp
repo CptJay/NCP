@@ -14,8 +14,8 @@ std::vector<double> Computing::addPolynomials(std::vector<double> p1, std::vecto
     int size = std::max(size1, size2);
     for (int i = 0; i < size; i++) {
         if (i < size1 && i < size2) {
-            sum.push_back(t.add(p1[i], p2[i]).size());
-            test.push_back(t.add(p1[i], p2[i]).size());
+            sum.push_back(add(p1[i], p2[i]));
+            test.push_back(add(p1[i], p2[i]));
             //sum.push_back(p1[i] + p2[i]);
         } else if (i >= size1) {
             sum.push_back(p2[i]);
@@ -39,7 +39,7 @@ std::vector<double> Computing::subtractPolynomials(std::vector<double> p1, std::
     int size = std::max(size1, size2);
     for (int i = 0; i < size; i++) {
         if (i < size1 && i < size2) {
-            difference.push_back(t.subtract(p1[i],p2[i]).size()); //difference.push_back(p1[i] - p2[i]);
+            difference.push_back(subtract(p1[i],p2[i])); //difference.push_back(p1[i] - p2[i]);
         } else if (i >= size1) {
             difference.push_back(-p2[i]);
         } else {
@@ -55,7 +55,7 @@ std::vector<double> Computing::multiplyPolynomials(std::vector<double> p1, std::
     std::vector<double> product(size1 + size2 - 1, 0);
     for (int i = 0; i < size1; i++) {
         for (int j = 0; j < size2; j++) {
-            product[i + j] += t.multiply(p1[i], p2[j]).size(); //p1[i] * p2[j];
+            product[i + j] += multiply(p1[i], p2[j]); //p1[i] * p2[j];
         }
     }
     return product;
@@ -95,7 +95,7 @@ std::vector<double> Computing::derive(const vector<double> &coefs) {
     std::vector<double> result;
 
     for (int i = 0; i < coefs.size()-1; i++){
-        result.push_back(t.multiply(coefs[i], coefs.size()-1-i).size());
+        result.push_back(multiply(coefs[i], coefs.size()-1-i));
     }
 
     return result;
@@ -110,8 +110,8 @@ std::vector<double> Computing::integrate(const vector<double> &coefs) {
     std::vector<double> result;
 
     for (int i = 0; i < coefs.size()-1; i++) {
-//        result[i+1] = t.divide(coefs[i],i+1).size();
-        result.push_back(t.divide(coefs[i], coefs.size()-i).size());
+//        result[i+1] = divide(coefs[i],i+1).size();
+        result.push_back(divide(coefs[i], coefs.size()-i));
     }
     result.push_back(coefs[coefs.size()-1]);
     return result;
@@ -157,7 +157,7 @@ Computing::subtract_matrices(const vector<std::vector<double>> &mat1, const vect
 
     for (int i = 0; i < mat1.size(); i++) {
         for (int j = 0; j < mat1[i].size(); j++) {
-            result[i][j] = mat1[i][j] - mat2[i][j];
+            result[i][j] = subtract(mat1[i][j], mat2[i][j]);
         }
     }
     return result;
