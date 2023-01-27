@@ -23,11 +23,11 @@ Vector v2 = [3 7 6 8];
 Vector v3 = v1 + v2; #Oppassen voor dimensie!
 
 #Substraction
+Vector v9 = v1 - v2;
 v2 = v3 - v2;
 
 #Multiplication
 Vector d = v1 * v2;
-
 
 #Length
 double f = len(v1);
@@ -48,21 +48,4 @@ Matrix m4 = m3 - m2; #Oppassen voor dimensie!  [2 5 | 3 9]
 m1 = m4 * m2; #Check
 
 #Transpose
-Matrix m4 = Tra(m2); #m4 = [1 3 | 2 4]
-
-#Determinant
-double f = Det(m4);
-
-#Inverse
-Matrix g = Inv(m4);
-
-
-### Polynomials ###
-
-Poly f(x) = 2x^2 + 1x^1 + 9;
-
-#Derivative
-Poly g(x) = Der(f);
-
-#Integration
-Poly h(x) = Int(f);
+Matrix m4 = Tra(m2);

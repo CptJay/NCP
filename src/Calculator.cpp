@@ -184,7 +184,8 @@ vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
             else if(Wat_is_het == "Vector"){
                 vector<string> newVector = EvaluateVectorExpression(helper_Vector_to_String(a),helper_Vector_to_String(b),V[index][0]);
                 Map_Vriable["_" + to_string(tempNames)] = {newVector, "Vector"};
-
+                V = Change_vector(index-1,index+1,V, "_" + to_string(tempNames));
+                tempNames++;
                 }
                 else{
                     new_value = evaluateExpression(x,y,V[index][0]);
@@ -215,7 +216,8 @@ vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
 
 
 
-    if(type == "double" and V.size() == 1){
+    if((type == "double") and V.size() == 1){
+
         string temp;
         string var;
         if(V[0].size() > 4){
@@ -227,9 +229,14 @@ vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
             V = {to_string(tm.length_vector(helper_Vector_to_String(Map_Vriable[var].first)))};
 
         }
-        else{
-            V = Map_Vriable[V[0]].first;
+        else if(Map_Vriable.contains(V[0])){
+            if(Map_Vriable[V[0]].second == "Vector"){
+                V = Map_Vriable[V[0]].first;
+            }
         }
+    }
+    if (type == "Vector" && V.size() == 1){
+        V = Map_Vriable[V[0]].first;
     }
     return V;
 }

@@ -222,6 +222,7 @@ int Computing::add(int x, int y) {
 }
 
 int Computing::subtract(int x, int y) {
+    int negative = x-y;
     int result {};
     if (abs(x) < abs(y)) {
         swap(x, y);
@@ -232,7 +233,7 @@ int Computing::subtract(int x, int y) {
     else {
         result = t.add(x, y);
     }
-    if (y-x < 0) {
+    if (negative < 0) {
         return -result;
     }
     return result;
