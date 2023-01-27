@@ -209,7 +209,7 @@ int Computing::add(int x, int y) {
     if (abs(x) < abs(y)) {
         swap(x, y);
     }
-    if (x >= 0 and y >= 0 or x < 0 and y < 0) {
+    if ((x >= 0 and y >= 0) or (x < 0 and y < 0)) {
         result = t.add(x, y);
     }
     else {
@@ -226,13 +226,13 @@ int Computing::subtract(int x, int y) {
     if (abs(x) < abs(y)) {
         swap(x, y);
     }
-    if (x >= 0 and y >= 0 or x < 0 and y < 0) {
+    if ((x >= 0 and y >= 0) or (x < 0 and y < 0)) {
         result = t.subtract(x, y);
     }
     else {
         result = t.add(x, y);
     }
-    if (x < 0) {
+    if (y-x < 0) {
         return -result;
     }
     return result;
@@ -240,7 +240,7 @@ int Computing::subtract(int x, int y) {
 
 int Computing::multiply(int x, int y) {
     int result = t.multiply(x, y);
-    if (x >= 0 and y >= 0 or x < 0 and y < 0) {
+    if ((x >= 0 and y >= 0) or (x < 0 and y < 0)) {
         return result;
     }
     return -result;
