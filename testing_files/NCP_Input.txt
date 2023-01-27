@@ -1,3 +1,37 @@
+### Doubles ###
+double a = 5; #a=5
+double b = 7; #b=7
+
+#Addition
+double c = a + b; #c=12
+
+#Substraction
+a = c - a; #a=7
+a = 2 * 9 + 1;
+
+#Multiplication
+b = a * c; #
+
+#Division
+b = 6 / 2;
+
+### Vectors ###
+Vector v1 = [2 3 4 6];
+Vector v2 = [3 7 6 8];
+
+#Addition
+Vector v3 = v1 + v2; #Oppassen voor dimensie!
+
+#Substraction
+v2 = v3 - v2;
+
+#Multiplication
+Vector d = v1 * v2;
+
+
+#Length
+double f = len(v1);
+
 
 ### Matrices ###
 Matrix m1 = [2 5 | 3 9];
