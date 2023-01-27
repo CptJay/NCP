@@ -142,6 +142,16 @@ std::vector<std::vector<double>>
 Computing::add_matrices(const vector<std::vector<double>> &mat1, const vector<std::vector<double>> &mat2) {
     std::vector<std::vector<double>> result(mat1.size(), std::vector<double>(mat1[0].size()));
 
+    if (mat1.size() != mat2.size()){
+        cout << "Error: Matrix dimensions not correct for addition" << endl;
+        return result;
+    }
+
+    if (mat1[0].size() != mat2[0].size()){
+        cout << "Error: Matrix dimensions not correct for addition" << endl;
+        return result;
+    }
+
     for (int i = 0; i < mat1.size(); i++) {
         for (int j = 0; j < mat1[i].size(); j++) {
             result[i][j] = add(mat1[i][j], mat2[i][j]);
@@ -155,6 +165,16 @@ std::vector<std::vector<double>>
 Computing::subtract_matrices(const vector<std::vector<double>> &mat1, const vector<std::vector<double>> &mat2) {
     std::vector<std::vector<double>> result(mat1.size(), std::vector<double>(mat1[0].size()));
 
+    if (mat1.size() != mat2.size()){
+        cout << "Error: Matrix dimensions not correct for subtraction" << endl;
+        return result;
+    }
+
+    if (mat1[0].size() != mat2[0].size()){
+        cout << "Error: Matrix dimensions not correct for subtraction" << endl;
+        return result;
+    }
+
     for (int i = 0; i < mat1.size(); i++) {
         for (int j = 0; j < mat1[i].size(); j++) {
             result[i][j] = subtract(mat1[i][j], mat2[i][j]);
@@ -167,7 +187,11 @@ std::vector<std::vector<double>>
 Computing::multiply_matrices(const vector<std::vector<double>> &mat1, const vector<std::vector<double>> &mat2) {
     std::vector<std::vector<double>> result(mat1.size(), std::vector<double>(mat2[0].size()));
 
-    //check for dimensie
+    //check for dimensie [[2, 3, 5], [2, 4, 3]]
+    if (mat1[0].size() != mat2.size()){
+        cout << "Error: Matrix dimensions not correct for multiplication" << endl;
+        return result;
+    }
 
     for (int i = 0; i < mat1.size(); i++) {
         for (int j = 0; j < mat2[0].size(); j++) {
@@ -267,6 +291,10 @@ std::vector<double> Computing::multiply_vectors(std::vector<double> vec1, std::v
     }
 
     return result;
+}
+
+double Computing::length_vector(std::vector<double> vec1) {
+    return vec1.size();
 }
 
 

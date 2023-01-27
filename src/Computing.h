@@ -45,6 +45,7 @@ public:
     std::vector<double> add_vectors(std::vector<double> vec1, std::vector<double> vec2);
     std::vector<double> subtract_vectors(std::vector<double> vec1, std::vector<double> vec2);
     std::vector<double> multiply_vectors(std::vector<double> vec1, std::vector<double> vec2);
+    double length_vector(std::vector<double> vec1);
 
     /**
      * Basic operations

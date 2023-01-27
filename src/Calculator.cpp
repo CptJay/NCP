@@ -211,12 +211,16 @@ vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
 
 void Calculator::Oefeningen(vector<pair<vector<string>,vector<string>>> Mappen) {
     for(const auto &i:Mappen){
-        string name = i.first[1];
-        string type_var = i.first[0];
+        string name;
+        string type_var;
         if(i.first.size() == 1){
             name = i.first[0];
             type_var = Map_Vriable[name].second;
+        } else{
+            name = i.first[1];
+            type_var = i.first[0];
         }
+
         Map_Vriable[name] = {Double_Oefening(type_var,i.second),type_var};
         cout<<name <<"=";
         for(const auto &j:Map_Vriable[name].first){

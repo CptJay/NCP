@@ -1,4 +1,4 @@
-//
+////
 // Created by nr1sl on 11/28/2022.
 //
 #ifndef NCP_EARLEYPARSER_H

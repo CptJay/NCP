@@ -43,54 +43,54 @@ int main() {
 
 
 
-    if (false){
-        cout << endl << "Computing Tests" << endl << "---------------" << endl;
-
-        cout << "*Adding Polynomials: " << endl;
-        vector<double> res =  tm.addPolynomials({2, 4}, {3, 2});
-        for (int i = 0; i < res.size()-1; i++) {
-            cout << res[i] << "x^" << res.size()-i-1 << " + ";
-        }
-        cout << res[res.size()-1] << endl;
-
-        cout << "*Subtracting Polynomials: " << endl;
-        res =  tm.subtractPolynomials({2, 4}, {3, 2});
-        for (int i = 0; i < res.size()-1; i++) {
-            cout << res[i] << "x^" << res.size()-i-1 << " + ";
-        }
-        cout << res[res.size()-1] << endl;
-
-        cout << "*Multiplying Polynomials: " << endl;
-        res =  tm.multiplyPolynomials({2, 4}, {3, 2});
-        for (int i = 0; i < res.size()-1; i++) {
-            cout << res[i] << "x^" << res.size()-i-1 << " + ";
-        }
-        cout << res[res.size()-1] << endl;
-
-        cout << "*Dividing Polynomials: " << endl;
-        // hier klopts iets niet
-        res =  tm.divide_polynomials({8, 9, 4}, {3, 2});
-        for (int i = 0; i < res.size()-1; i++) {
-            cout << res[i] << "x^" << res.size()-i-1 << " + ";
-        }
-        cout << res[res.size()-1] << endl;
-
-        cout << "*Deriving Polynomial" << endl;
-        res = tm.derive({10, 5, 2, 3});
-        for (int i = 0; i < res.size()-1; i++) {
-            cout << res[i] << "x^" << res.size()-i-1 << " + ";
-        }
-        cout << res[res.size()-1] << endl;
-
-        cout << "*Integrating Polynomial" << endl;
-        res = tm.integrate({5, 2, 3});
-        for (int i = 0; i < res.size()-1; i++) {
-            cout << res[i] << "x^" << res.size()-i << " + ";
-        }
-        cout << res[res.size()-1] << "x^1 + c" << endl;
-
-
-    }
+//    if (false){
+//        cout << endl << "Computing Tests" << endl << "---------------" << endl;
+//
+//        cout << "*Adding Polynomials: " << endl;
+//        vector<double> res =  tm.addPolynomials({2, 4}, {3, 2});
+//        for (int i = 0; i < res.size()-1; i++) {
+//            cout << res[i] << "x^" << res.size()-i-1 << " + ";
+//        }
+//        cout << res[res.size()-1] << endl;
+//
+//        cout << "*Subtracting Polynomials: " << endl;
+//        res =  tm.subtractPolynomials({2, 4}, {3, 2});
+//        for (int i = 0; i < res.size()-1; i++) {
+//            cout << res[i] << "x^" << res.size()-i-1 << " + ";
+//        }
+//        cout << res[res.size()-1] << endl;
+//
+//        cout << "*Multiplying Polynomials: " << endl;
+//        res =  tm.multiplyPolynomials({2, 4}, {3, 2});
+//        for (int i = 0; i < res.size()-1; i++) {
+//            cout << res[i] << "x^" << res.size()-i-1 << " + ";
+//        }
+//        cout << res[res.size()-1] << endl;
+//
+//        cout << "*Dividing Polynomials: " << endl;
+//        // hier klopts iets niet
+//        res =  tm.divide_polynomials({8, 9, 4}, {3, 2});
+//        for (int i = 0; i < res.size()-1; i++) {
+//            cout << res[i] << "x^" << res.size()-i-1 << " + ";
+//        }
+//        cout << res[res.size()-1] << endl;
+//
+//        cout << "*Deriving Polynomial" << endl;
+//        res = tm.derive({10, 5, 2, 3});
+//        for (int i = 0; i < res.size()-1; i++) {
+//            cout << res[i] << "x^" << res.size()-i-1 << " + ";
+//        }
+//        cout << res[res.size()-1] << endl;
+//
+//        cout << "*Integrating Polynomial" << endl;
+//        res = tm.integrate({5, 2, 3});
+//        for (int i = 0; i < res.size()-1; i++) {
+//            cout << res[i] << "x^" << res.size()-i << " + ";
+//        }
+//        cout << res[res.size()-1] << "x^1 + c" << endl;
+//
+//
+//    }
 
     //map<vector<string>,vector<string>> temp = first.GetVolgorde();
 
