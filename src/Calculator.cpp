@@ -185,14 +185,11 @@ vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
                 vector<string> newVector = EvaluateVectorExpression(helper_Vector_to_String(a),helper_Vector_to_String(b),V[index][0]);
                 Map_Vriable["_" + to_string(tempNames)] = {newVector, "Vector"};
 
-                V = Change_vector(index-1,index+1,V, "_" + to_string(tempNames));
-                tempNames++;
-            }
-            else{
-                new_value = evaluateExpression(x,y,V[index][0]);
-                V = Change_vector(index-1,index+1,V, to_string(new_value));
-            }
-
+                }
+                else{
+                    new_value = evaluateExpression(x,y,V[index][0]);
+                    V = Change_vector(index-1,index+1,V, to_string(new_value));
+                }
             index = 0;
         }
         if(V.size() == 1 or index == V.size()-1){
@@ -200,8 +197,39 @@ vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
         }
         index++;
     }
-    if((type == "Vector"  or type == "Matrix")and V.size() == 1){
-        V = Map_Vriable[V[0]].first;
+    if(type == "Matrix" and V.size() == 1){
+        string temp;
+        string var;
+        if(V[0].size()>4){
+            temp = V[0].substr(0,3);
+            var = V[0].substr(4,V[0].size() - 4);
+            var.pop_back();
+        }
+        if(temp == "Tra"){
+            V = helper_Matrix_to_vecString(tm.transpose(helper_vecString_to_Matrix(Map_Vriable[var].first)));
+        }
+        else{
+            V = Map_Vriable[V[0]].first;
+        }
+    }
+
+
+
+    if(type == "double" and V.size() == 1){
+        string temp;
+        string var;
+        if(V[0].size() > 4){
+            temp = V[0].substr(0,3);
+            var = V[0].substr(4,V[0].size() - 4);
+            var.pop_back();
+        }
+        if(temp == "len"){
+            V = {to_string(tm.length_vector(helper_Vector_to_String(Map_Vriable[var].first)))};
+
+        }
+        else{
+            V = Map_Vriable[V[0]].first;
+        }
     }
     return V;
 }

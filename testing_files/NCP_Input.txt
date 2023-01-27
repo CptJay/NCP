@@ -1,41 +1,7 @@
-### Doubles ###
-double a = 5; #a=5
-double b = 7; #b=7
-
-#Addition
-double c = a + b; #c=12
-
-#Substraction
-a = c - a; #a=7
-a = 2 * 9 + 1;
-
-#Multiplication
-b = a * c; #
-
-#Division
-b = 6 / 2;
-
-### Vectors ###
-Vector v1 = [2 3 4 6];
-Vector v2 = [3 7 6 8];
-
-#Addition
-Vector v3 = v1 + v2; #Oppassen voor dimensie!
-
-#Substraction
-v2 = v3 - v2;
-
-#Multiplication
-Vector d = v1 * v2;
-
-
-#Length
-double f = len(v1);
-
 
 ### Matrices ###
 Matrix m1 = [2 5 | 3 9];
-Matrix m2 = [2 3 | 3 4];
+Matrix m2 = [2 7 | 3 4];
 
 #Addition
 Matrix m3 = m1 + m2; #Oppassen voor dimensie!
@@ -58,7 +24,7 @@ Matrix g = Inv(m4);
 
 ### Polynomials ###
 
-Poly f(x) = 2x^2 + 1x^1 + a;
+Poly f(x) = 2x^2 + 1x^1 + 9;
 
 #Derivative
 Poly g(x) = Der(f);
