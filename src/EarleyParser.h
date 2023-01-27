@@ -26,6 +26,7 @@ private:
     Objects* Variable_Object;
     Objects* S;
     map<vector<string>,vector<string>> Volgorde;
+    vector<pair<vector<string>,vector<string>>> volgorde_vec;
 
 
 public:
@@ -38,7 +39,7 @@ public:
     bool Search(string str,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,EarleyParser& second, int& state, int& chart, map<string,bool>& twotime);
     bool OneDotAhead(string str,map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel,EarleyParser& second, int& state, int& chart, map<string,bool>& twotime);
     bool LastChart(map<pair<pair<Objects*,int>,int>,pair<int,vector<Objects*>>>& Tabel, int chart);
-    map<vector<string>,vector<string>> GetVolgorde() const;
+    vector<pair<vector<string>,vector<string>>> GetVolgorde() const;
     };
 
 

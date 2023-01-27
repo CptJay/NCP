@@ -50,143 +50,158 @@ vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
     int new_value {};
     string Wat_is_het = "niks";
     int n = 1;
-    while(V.size() != n){
-        int index = 0;
-        while(true){
-            if(V[index] == "("){
-                //int1 geeft sluitend haakje
-                //int2 is de value
-                pair<int,string> new_values = Haakjes(index,V,type);
-                V.erase(V.begin()+index, V.begin() + new_values.first);
-                V.insert(V.begin()+index, V.begin(), V.end());
-                //V = Change_vector(index,new_values.first,V, new_values.second);
-                index = 0;
-            }
-            if(index == V.size()-1){
-                break;
-            }
-            index++;
+
+    int index = 0;
+    while(true){
+        if(V[index] == "("){
+            //int1 geeft sluitend haakje
+            //int2 is de value
+            pair<int,string> new_values = Haakjes(index,V,type);
+            V.erase(V.begin()+index, V.begin() + new_values.first);
+            V.insert(V.begin()+index, V.begin(), V.end());
+            //V = Change_vector(index,new_values.first,V, new_values.second);
+            index = 0;
         }
-        index = 0;
-        while(true){
-            if(V[index] =="*" or V[index] == "/"){
-                string Before = V[index-1];
-                string After = V[index+1];
-                int x;
-                int y;
-
-                if(Map_Vriable.contains(Before)){
-                    if(Map_Vriable[Before].second == "Matrix"){
-                        // matrices kunnen niet delen
-                        if (V[index] == "/"){ // el1 * el2
-                            cout << "Error: Matrices kunnen niet delen";
-                        }
-                        a = Map_Vriable[Before].first;
-                        Wat_is_het = "Matrix";
-                    }
-                    else if(Map_Vriable[Before].second == "Vector"){
-
-                    }
-                    else{
-                        x = stoi(Map_Vriable[Before].first[0]);
-                    }
-                }
-                else{
-                    x = stoi(Before);
-                }
-
-                if(Map_Vriable.contains(After)){
-                    if(Map_Vriable[After].second == "Matrix"){
-                        b = Map_Vriable[After].first;
-                        Wat_is_het = "Matrix";
-                    }
-                    else if(Map_Vriable[After].second == "Vector"){
-
-                    }
-                    else{
-                        y = stoi(Map_Vriable[After].first[0]);
-                    }
-                }
-                else{
-                    y = stoi(After);
-                }
-                if (Wat_is_het == "Matrix"){
-                    vector<string> newMatrix = evaluateMatrixExpression(helper_vecString_to_Matrix(a),helper_vecString_to_Matrix(b),V[index][0]);
-                    Map_Vriable.insert({"_" + to_string(tempNames),{newMatrix, "Matrix"}});
-                    V = Change_vector(index-1,index+1,V, "_" + to_string(tempNames));
-                    tempNames++;
-                }
-                else if (Wat_is_het == "Vector"){
-                    vector<string> newVector = EvaluateVectorExpression(helper_Vector_to_String(a),helper_Vector_to_String(b),V[index][0]);
-                    Map_Vriable.insert({"_" + to_string(tempNames),{newVector, "Vector"}});
-                    V = Change_vector(index-1,index+1,V, "_" + to_string(tempNames));
-                    tempNames++;
-                }
-                else {
-                    new_value = evaluateExpression(x,y,V[index][0]);
-                    V = Change_vector(index-1,index+1,V, to_string(new_value));
-                }
-                index = 0;
-            }
-            if(index == V.size()-1){
-                break;
-            }
-            index++;
+        if(index == V.size()-1){
+            break;
         }
-        index = 0;
-        while(true){
-            if (V[index] == "+" || V[index] == "-"){
-                string Before = V[index-1];
-                string After = V[index+1];
-                int x;
-                int y;
-                if(Map_Vriable.contains(Before)){
-                    if(Map_Vriable[Before].second == "Matrix"){
-                        a = Map_Vriable[Before].first;
-                        Wat_is_het = "Matrix";
-                    }
-                    else if(Map_Vriable[Before].second == "Vector"){
+        index++;
+    }
+    index = 0;
+    while(true){
+        if(V[index] =="*" or V[index] == "/"){
+            string Before = V[index-1];
+            string After = V[index+1];
+            int x;
+            int y;
 
+            if(Map_Vriable.contains(Before)){
+                if(Map_Vriable[Before].second == "Matrix"){
+                    // matrices kunnen niet delen
+                    if (V[index] == "/"){ // el1 * el2
+                        cout << "Error: Matrices kunnen niet delen";
                     }
-                    else{
-                        x = stoi(Map_Vriable[Before].first[0]);
-                    }
+                    a = Map_Vriable[Before].first;
+                    Wat_is_het = "Matrix";
+                }
+                else if(Map_Vriable[Before].second == "Vector"){
+                    a = Map_Vriable[Before].first;
+                    Wat_is_het = "Vector";
                 }
                 else{
-                    x = stoi(Before);
+                    x = stoi(Map_Vriable[Before].first[0]);
                 }
-                if(Map_Vriable.contains(After)){
-                    if(Map_Vriable[After].second == "Matrix"){
-                        b = Map_Vriable[Before].first;
-                        Wat_is_het = "Matrix";
-                    }
-                    else if(Map_Vriable[After].second == "Vector"){
+            }
+            else{
+                x = stoi(Before);
+            }
 
-                    }
-                    else{
-                        y = stoi(Map_Vriable[After].first[0]);
-                    }
+            if(Map_Vriable.contains(After)){
+                if(Map_Vriable[After].second == "Matrix"){
+                    b = Map_Vriable[After].first;
+                    Wat_is_het = "Matrix";
+                }
+                else if(Map_Vriable[After].second == "Vector"){
+                    b = Map_Vriable[After].first;
+                    Wat_is_het = "Vector";
                 }
                 else{
-                    y = stoi(After);
+                    y = stoi(Map_Vriable[After].first[0]);
                 }
-                if(Wat_is_het == "Matrix"){
-                    vector<string> newMatrix = evaluateMatrixExpression(helper_vecString_to_Matrix(a),helper_vecString_to_Matrix(b),V[index][0]);
-                }
-                else if(Wat_is_het == "Vector"){
+            }
+            else{
+                y = stoi(After);
+            }
+            if (Wat_is_het == "Matrix"){
+                vector<string> newMatrix = evaluateMatrixExpression(helper_vecString_to_Matrix(a),helper_vecString_to_Matrix(b),V[index][0]);
+                Map_Vriable["_" + to_string(tempNames)] = {newMatrix, "Matrix"};
+                V = Change_vector(index-1,index+1,V, "_" + to_string(tempNames));
+                tempNames++;
+            }
+            else if (Wat_is_het == "Vector"){
+                vector<string> newVector = EvaluateVectorExpression(helper_Vector_to_String(a),helper_Vector_to_String(b),V[index][0]);
+                Map_Vriable["_" + to_string(tempNames)] = {newVector, "Vector"};
 
-                }
-                else{
-                    new_value = evaluateExpression(x,y,V[index][0]);
-                }
+                V = Change_vector(index-1,index+1,V, "_" + to_string(tempNames));
+                tempNames++;
+            }
+            else {
+                new_value = evaluateExpression(x,y,V[index][0]);
                 V = Change_vector(index-1,index+1,V, to_string(new_value));
-                index = 0;
             }
-            if(V.size() == 1){
-                break;
-            }
-            index++;
+            index = 0;
         }
+        if(index == V.size()-1){
+            break;
+        }
+        index++;
+    }
+    index = 0;
+    while(true){
+        if (V[index] == "+" || V[index] == "-"){
+            string Before = V[index-1];
+            string After = V[index+1];
+            int x;
+            int y;
+            if(Map_Vriable.contains(Before)){
+                if(Map_Vriable[Before].second == "Matrix"){
+                    a = Map_Vriable[Before].first;
+                    Wat_is_het = "Matrix";
+                }
+                else if(Map_Vriable[Before].second == "Vector"){
+                    a = Map_Vriable[Before].first;
+                    Wat_is_het = "Vector";
+                }
+                else{
+                    x = stoi(Map_Vriable[Before].first[0]);
+                }
+            }
+            else{
+                x = stoi(Before);
+            }
+            if(Map_Vriable.contains(After)){
+                if(Map_Vriable[After].second == "Matrix"){
+                    b = Map_Vriable[After].first;
+                    Wat_is_het = "Matrix";
+                }
+                else if(Map_Vriable[After].second == "Vector"){
+                    b = Map_Vriable[After].first;
+                    Wat_is_het = "Vector";
+                }
+                else{
+                    y = stoi(Map_Vriable[After].first[0]);
+                }
+            }
+            else{
+                y = stoi(After);
+            }
+            if(Wat_is_het == "Matrix"){
+                vector<string> newMatrix = evaluateMatrixExpression(helper_vecString_to_Matrix(a),helper_vecString_to_Matrix(b),V[index][0]);
+                Map_Vriable["_" + to_string(tempNames)] = {newMatrix, "Matrix"};
+                V = Change_vector(index-1,index+1,V, "_" + to_string(tempNames));
+                tempNames++;
+            }
+            else if(Wat_is_het == "Vector"){
+                vector<string> newVector = EvaluateVectorExpression(helper_Vector_to_String(a),helper_Vector_to_String(b),V[index][0]);
+                Map_Vriable["_" + to_string(tempNames)] = {newVector, "Vector"};
+
+                V = Change_vector(index-1,index+1,V, "_" + to_string(tempNames));
+                tempNames++;
+            }
+            else{
+                new_value = evaluateExpression(x,y,V[index][0]);
+                V = Change_vector(index-1,index+1,V, to_string(new_value));
+            }
+
+            index = 0;
+        }
+        if(V.size() == 1 or index == V.size()-1){
+            break;
+        }
+        index++;
+    }
+    if((type == "Vector"  or type == "Matrix")and V.size() == 1){
+        V = Map_Vriable[V[0]].first;
     }
     return V;
 }
@@ -194,14 +209,22 @@ vector<string> Calculator::Double_Oefening(string type, vector<string>V) {
 
 
 
-void Calculator::Oefeningen(map<vector<string>, vector<string>>Mappen) {
+void Calculator::Oefeningen(vector<pair<vector<string>,vector<string>>> Mappen) {
     for(const auto &i:Mappen){
-        Double_Oefening(i.first[0],i.second);
-        cout<<i.first[1] <<"=";
-        for(const auto &j:Map_Vriable[i.first[1]].first){
-            cout<<j<<endl;
+        string name = i.first[1];
+        string type_var = i.first[0];
+        if(i.first.size() == 1){
+            name = i.first[0];
+            type_var = Map_Vriable[name].second;
         }
+        Map_Vriable[name] = {Double_Oefening(type_var,i.second),type_var};
+        cout<<name <<"=";
+        for(const auto &j:Map_Vriable[name].first){
+            cout<<j<<" ";
+        }
+        cout<<endl;
     }
+
 }
 
 bool Calculator::sign_check(vector<string>v){
@@ -213,7 +236,7 @@ bool Calculator::sign_check(vector<string>v){
     return false;
 }
 
-Calculator::Calculator(map<vector<string>, vector<string>> m) {
+Calculator::Calculator(vector<pair<vector<string>,vector<string>>> m) {
     for(const auto &i: m){
         if(i.second.size() == 1){
             Map_Vriable[i.first[1]] = {i.second,i.first[0]};
@@ -228,13 +251,15 @@ Calculator::Calculator(map<vector<string>, vector<string>> m) {
 
 
 vector<string> Calculator::helper_Matrix_to_vecString(vector<std::vector<double>> temp){
-    vector<string> return_string;
+    vector<string> return_string = {"["};
     for(auto i:temp){
         for(auto j:i){
             return_string.emplace_back(to_string(j));
         }
             return_string.emplace_back("|");
     }
+    return_string.pop_back();
+    return_string.emplace_back("]");
     return return_string;
 }
 
@@ -243,30 +268,35 @@ vector<vector<double>> Calculator::helper_vecString_to_Matrix(vector<string> tem
     vector<double> row;
 
     for (const auto& el : temp) {
-        if (el == "[" || el == "]"){
+        if (el == "[" ){
             continue;
         }
-        if (el == "|"){
+        if (el == "|" || el == "]"){
             return_double.emplace_back(row);
             row.clear();
             continue;
         }
+
         row.emplace_back(stoi(el));
     }
     return return_double;
 }
 
 vector<string> Calculator::helper_vecString_to_Vector(vector<double> temp){
-    vector<string> temporary_vec;
+    vector<string> temporary_vec = {"["};
     for(auto i:temp){
         temporary_vec.emplace_back(to_string(i));
     }
+    temporary_vec.emplace_back("]");
     return temporary_vec;
 }
 
 vector<double> Calculator::helper_Vector_to_String(vector<string> temp){
     vector<double> temporary_vec;
-    for(auto i:temp){
+    for(const auto &i:temp){
+        if(i == "[" or i == "]"){
+            continue;
+        }
         temporary_vec.emplace_back(stoi(i));
     }
     return temporary_vec;

@@ -158,6 +158,10 @@ void EarleyParser::accepting(EarleyParser& second, string str){
                     if(Break){
                         break;
                     }
+                    Break = !Variable_check(word);
+                    if(Break){
+                        break;
+                    }
                     volgorde.emplace_back(word);
                     word = st;
                 }
@@ -166,9 +170,18 @@ void EarleyParser::accepting(EarleyParser& second, string str){
                     break;
                 }
                 chart++;
+                Break = !Variable_check(word);
+                if(Break){
+                    break;
+                }
                 volgorde.emplace_back(word);
                 Break = !Search(dotkomma,Tabel,second,state,chart,twotime);
                 volgorde.emplace_back(dotkomma);
+            }
+
+            Break = !Variable_check(word);
+            if(Break){
+                break;
             }
 
             ////normale woorden zoals 2,2x,a,+ etc worden hier gekeken
@@ -190,6 +203,7 @@ void EarleyParser::accepting(EarleyParser& second, string str){
         }
         volgorde.pop_back();
         Volgorde[volgorde_name] = volgorde;
+        volgorde_vec.push_back({volgorde_name,volgorde});
         cout<<lines<<endl;
         Contains.clear();
     }
@@ -290,6 +304,6 @@ bool EarleyParser::LastChart(map<pair<pair<Objects*,int>,int>,pair<int,vector<Ob
     return true;
 }
 
-map<vector<string>,vector<string>> EarleyParser::GetVolgorde() const {
-    return Volgorde;
+vector<pair<vector<string>,vector<string>>> EarleyParser::GetVolgorde() const {
+    return volgorde_vec;
 }

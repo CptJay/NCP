@@ -24,9 +24,9 @@ class Calculator {
 
 public:
     bool sign_check(vector<string>v);
-    Calculator(map<vector<string>,vector<string>>);
+    Calculator(vector<pair<vector<string>,vector<string>>>);
     pair<int,string> Haakjes(int i, vector<string>Vector,string type);
-    void Oefeningen(map<vector<string>,vector<string>>);
+    void Oefeningen(vector<pair<vector<string>,vector<string>>>);
     vector<string> Double_Oefening(string type, vector<string>V);
     void Bereken();
     vector<string> evaluateMatrixExpression(const vector<std::vector<double>> &mat1, const vector<std::vector<double>> &mat2,char op);
